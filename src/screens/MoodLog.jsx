@@ -12,10 +12,13 @@ export default function MoodLog() {
       <h2>Mood Log</h2>
       <MoodInput onSave={(rating, note) => addMood(rating, note)} />
       <hr />
-      <h3>All Entries ({moods.length})</h3>
-      {moods.map((mood) => (
-        <MoodCard key={mood.id} mood={mood} onDelete={deleteMood} />
-      ))}
+      {moods.length === 0 ? (
+        <p className="empty-state">No entries yet.</p>
+      ) : (
+        moods.map((mood) => (
+          <MoodCard key={mood.id} mood={mood} onDelete={deleteMood} />
+        ))
+      )}
     </div>
   )
 }

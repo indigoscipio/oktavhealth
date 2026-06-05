@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+const emojis = ['😞', '😕', '😐', '🙂', '😊']
 const labels = ['Terrible', 'Bad', 'Okay', 'Good', 'Great']
 
 export default function MoodInput({ onSave }) {
@@ -15,22 +16,22 @@ export default function MoodInput({ onSave }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="card mood-form" onSubmit={handleSubmit}>
       <p>How are you feeling?</p>
-      <div>
-        {[1, 2, 3, 4, 5].map((n) => (
-          <button type="button" key={n} onClick={() => setRating(n)}>
-            {n} {rating === n && '*'}
+      <div className="rating-row">
+        {[0, 1, 2, 3, 4].map((i) => (
+          <button type="button" key={i}
+            className={`rating-btn ${rating === i + 1 ? 'selected' : ''}`}
+            onClick={() => setRating(i + 1)}
+          >
+            {emojis[i]}
           </button>
         ))}
       </div>
-      <p>Selected: {rating ? labels[rating - 1] : 'None'}</p>
-      <input
-        placeholder="Add a note (optional)"
-        value={note}
-        onChange={(e) => setNote(e.target.value)}
-      />
-      <button type="submit" disabled={!rating}>Log Mood</button>
+      <div className="rating-label">{rating ? labels[rating - 1] : 'Tap an emoji'}</div>
+      <input className="mood-note" placeholder="Add a note (optional)"
+        value={note} onChange={(e) => setNote(e.target.value)} />
+      <button className="btn" type="submit" disabled={!rating}>Log Mood</button>
     </form>
   )
 }

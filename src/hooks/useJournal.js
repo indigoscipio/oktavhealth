@@ -1,34 +1,51 @@
 import { useState, useEffect, useCallback } from 'react'
 import db from '../db/db'
 
-export function useJournal() {
-  const [entries, setEntries] = useState([])
-  const [loading, setLoading] = useState(true)
+const STORAGE_KEY = 'oktav-journal'
 
-  const fetchEntries = useCallback(async () => {
-    try {
-      const result = await db.journalEntries.orderBy('createdAt').reverse().toArray()
-      setEntries(result)
-    } catch (e) {
-      console.error('Failed to fetch journal entries', e)
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+function loadFromStorage() {
+  try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]') }
+  catch { return [] }
+}
+
+function saveToStorage(entries) {
+  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(entries))
+}
+
+export function useJournal() {
+  const [entries, setEntries] = useState(loadFromStorage)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    fetchEntries()
-  }, [fetchEntries])
+    db.journalEntries.orderBy('createdAt').reverse().toArray()
+      .then((result) => {
+        if (result.length > 0) {
+          setEntries(result)
+          saveToStorage(result)
+        }
+      })
+      .catch(() => {})
+  }, [])
 
-  const addEntry = useCallback(async ({ title, body, moodId }) => {
-    await db.journalEntries.add({ title, body, moodId, createdAt: new Date() })
-    await fetchEntries()
-  }, [fetchEntries])
+  const addEntry = useCallback(({ title, body, moodId }) => {
+    const entry = { title, body, moodId, createdAt: new Date() }
+    const tempId = Date.now()
+    const updated = [{ ...entry, id: tempId }, ...loadFromStorage()]
+    setEntries(updated)
+    saveToStorage(updated)
+    db.journalEntries.add(entry).then((realId) => {
+      const final = updated.map((e) => e.id === tempId ? { ...e, id: realId } : e)
+      setEntries(final)
+      saveToStorage(final)
+    }).catch(() => {})
+  }, [])
 
-  const deleteEntry = useCallback(async (id) => {
-    await db.journalEntries.delete(id)
-    await fetchEntries()
-  }, [fetchEntries])
+  const deleteEntry = useCallback((id) => {
+    const updated = loadFromStorage().filter((e) => e.id !== id)
+    setEntries(updated)
+    saveToStorage(updated)
+    db.journalEntries.delete(id).catch(() => {})
+  }, [])
 
   return { entries, loading, addEntry, deleteEntry }
 }

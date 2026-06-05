@@ -2,18 +2,17 @@ export default function Layout({ view, onNavigate, children }) {
   const navItems = ['Home', 'MoodLog', 'Journal', 'Settings']
 
   return (
-    <div>
-      <header>
-        <h1>OktavHealth</h1>
-      </header>
+    <div className="app">
+      <header>OktavHealth</header>
       <main>{children}</main>
       <nav>
         {navItems.map((item) => (
-          <button
-            key={item}
-            onClick={() => onNavigate(item)}
-            style={{ fontWeight: view === item ? 'bold' : 'normal' }}
-          >
+          <button key={item} className={view === item ? 'active' : ''}
+            onClick={() => onNavigate(item)}>
+            {item === 'Home' && '🏠 '}
+            {item === 'MoodLog' && '📊 '}
+            {item === 'Journal' && '📝 '}
+            {item === 'Settings' && '⚙️ '}
             {item}
           </button>
         ))}

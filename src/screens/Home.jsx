@@ -1,27 +1,47 @@
 import MoodInput from '../components/MoodInput'
 import MoodCard from '../components/MoodCard'
+import MoodChart from '../components/MoodChart'
+import MoodInsights from '../components/MoodInsights'
 import { useMoods } from '../hooks/useMoods'
+import { useJournal } from '../hooks/useJournal'
+import { useSettings } from '../hooks/useSettings'
+import { formatDate, groupByDay } from '../utils/date'
 
 export default function Home() {
-  const { todayMoods, latestMood, addMood, deleteMood } = useMoods()
+  const { moods, addMood, deleteMood } = useMoods()
+  const { entries } = useJournal()
+  const { settings } = useSettings()
+  const name = settings.userName || 'you'
+  const groups = groupByDay(moods)
 
   return (
     <div>
-      <h2>Home</h2>
-      {!latestMood ? (
-        <MoodInput onSave={(rating, note) => addMood(rating, note)} />
-      ) : (
-        <div>
-          <p>Today's mood logged already.</p>
-          <MoodCard mood={latestMood} onDelete={deleteMood} />
-          <button onClick={() => addMood(3, '')}>Log another</button>
-        </div>
+      <p className="greeting">Hello, {name}! 👋</p>
+      {(moods.length > 0 || entries.length > 0) && (
+        <p className="stats">{moods.length} mood{moods.length !== 1 && 's'} · {entries.length} journal {entries.length !== 1 ? 'entries' : 'entry'}</p>
       )}
+
+      <MoodInput onSave={(rating, note) => addMood(rating, note)} />
+
+      <MoodInsights moods={moods} />
+
+      {moods.length >= 2 && <MoodChart moods={moods} />}
+
       <hr />
-      <h3>Today's Entries ({todayMoods.length})</h3>
-      {todayMoods.map((mood) => (
-        <MoodCard key={mood.id} mood={mood} onDelete={deleteMood} />
-      ))}
+
+      <h3>Recent Activity</h3>
+      {moods.length === 0 ? (
+        <p className="empty-state">No moods logged yet. Tap an emoji above to get started.</p>
+      ) : (
+        groups.map(([day, dayMoods]) => (
+          <div key={day}>
+            <p className="date-header">{formatDate(day)}</p>
+            {dayMoods.map((mood) => (
+              <MoodCard key={mood.id} mood={mood} onDelete={deleteMood} />
+            ))}
+          </div>
+        ))
+      )}
     </div>
   )
 }

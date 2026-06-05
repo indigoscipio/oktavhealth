@@ -1,17 +1,22 @@
 import { formatDate, formatTime } from '../utils/date'
 
+const emojis = ['😞', '😕', '😐', '🙂', '😊']
 const labels = ['Terrible', 'Bad', 'Okay', 'Good', 'Great']
 
 export default function MoodCard({ mood, onDelete }) {
   return (
-    <div>
+    <div className="card">
       <p>
-        <strong>{labels[mood.rating - 1]}</strong> ({mood.rating}/5)
+        <span style={{ fontSize: 20 }}>{emojis[mood.rating - 1]}</span>{' '}
+        <strong>{labels[mood.rating - 1]}</strong>
       </p>
-      <p>{formatDate(mood.createdAt)} at {formatTime(mood.createdAt)}</p>
-      {mood.note && <p>{mood.note}</p>}
-      {mood.tags?.length > 0 && <p>Tags: {mood.tags.join(', ')}</p>}
-      {onDelete && <button onClick={() => onDelete(mood.id)}>Delete</button>}
+      <p className="mood-meta">{formatDate(mood.createdAt)} at {formatTime(mood.createdAt)}</p>
+      {mood.note && <p className="mood-note-text">{mood.note}</p>}
+      {onDelete && (
+        <button className="btn btn-danger" style={{ marginTop: 8 }} onClick={() => onDelete(mood.id)}>
+          Delete
+        </button>
+      )}
     </div>
   )
 }

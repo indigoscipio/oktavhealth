@@ -23,37 +23,37 @@ export default function Journal() {
     <div>
       <h2>Journal</h2>
       {!editing ? (
-        <button onClick={() => setEditing(true)}>New Entry</button>
+        <button className="btn" onClick={() => setEditing(true)}>New Entry</button>
       ) : (
-        <form onSubmit={handleSubmit}>
-          <input
-            placeholder="Title (optional)"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <br />
-          <textarea
-            placeholder="Write something..."
-            rows={5}
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            required
-          />
-          <br />
-          <button type="submit">Save</button>
-          <button type="button" onClick={() => setEditing(false)}>Cancel</button>
-        </form>
+        <div className="card">
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Title (optional)</label>
+              <input value={title} onChange={(e) => setTitle(e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label>Entry</label>
+              <textarea rows={5} value={body}
+                onChange={(e) => setBody(e.target.value)} required />
+            </div>
+            <button className="btn" type="submit">Save</button>{' '}
+            <button className="btn btn-secondary" type="button" onClick={() => setEditing(false)}>Cancel</button>
+          </form>
+        </div>
       )}
       <hr />
-      {entries.map((entry) => (
-        <div key={entry.id}>
-          {entry.title && <h3>{entry.title}</h3>}
-          <p>{entry.body}</p>
-          <small>{formatDate(entry.createdAt)}</small>
-          <button onClick={() => deleteEntry(entry.id)}>Delete</button>
-          <hr />
-        </div>
-      ))}
+      {entries.length === 0 ? (
+        <p className="empty-state">No journal entries yet.</p>
+      ) : (
+        entries.map((entry) => (
+          <div className="card journal-entry" key={entry.id}>
+            {entry.title && <h3>{entry.title}</h3>}
+            <p>{entry.body}</p>
+            <p className="mood-meta">{formatDate(entry.createdAt)}</p>
+            <button className="btn btn-danger" onClick={() => deleteEntry(entry.id)}>Delete</button>
+          </div>
+        ))
+      )}
     </div>
   )
 }

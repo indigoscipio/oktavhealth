@@ -1,40 +1,51 @@
 import { useState, useEffect, useCallback } from 'react'
 import db from '../db/db'
 
-export function useMoods() {
-  const [moods, setMoods] = useState([])
-  const [loading, setLoading] = useState(true)
+const STORAGE_KEY = 'oktav-moods'
 
-  const fetchMoods = useCallback(async () => {
-    try {
-      const result = await db.moods.orderBy('createdAt').reverse().toArray()
-      setMoods(result)
-    } catch (e) {
-      console.error('Failed to fetch moods', e)
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+function loadFromStorage() {
+  try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]') }
+  catch { return [] }
+}
+
+function saveToStorage(moods) {
+  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(moods))
+}
+
+export function useMoods() {
+  const [moods, setMoods] = useState(loadFromStorage)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    fetchMoods()
-  }, [fetchMoods])
+    db.moods.orderBy('createdAt').reverse().toArray()
+      .then((result) => {
+        if (result.length > 0) {
+          setMoods(result)
+          saveToStorage(result)
+        }
+      })
+      .catch(() => {})
+  }, [])
 
-  const addMood = useCallback(async (rating, note, tags) => {
-    await db.moods.add({ rating, note, tags: tags || [], createdAt: new Date() })
-    await fetchMoods()
-  }, [fetchMoods])
+  const addMood = useCallback((rating, note, tags) => {
+    const entry = { rating, note, tags: tags || [], createdAt: new Date() }
+    const tempId = Date.now()
+    const updated = [{ ...entry, id: tempId }, ...loadFromStorage()]
+    setMoods(updated)
+    saveToStorage(updated)
+    db.moods.add(entry).then((realId) => {
+      const final = updated.map((m) => m.id === tempId ? { ...m, id: realId } : m)
+      setMoods(final)
+      saveToStorage(final)
+    }).catch(() => {})
+  }, [])
 
-  const deleteMood = useCallback(async (id) => {
-    await db.moods.delete(id)
-    await fetchMoods()
-  }, [fetchMoods])
+  const deleteMood = useCallback((id) => {
+    const updated = loadFromStorage().filter((m) => m.id !== id)
+    setMoods(updated)
+    saveToStorage(updated)
+    db.moods.delete(id).catch(() => {})
+  }, [])
 
-  const todayMoods = moods.filter(
-    (m) => new Date(m.createdAt).toDateString() === new Date().toDateString()
-  )
-
-  const latestMood = todayMoods.length > 0 ? todayMoods[0] : null
-
-  return { moods, todayMoods, latestMood, loading, addMood, deleteMood }
+  return { moods, loading, addMood, deleteMood }
 }

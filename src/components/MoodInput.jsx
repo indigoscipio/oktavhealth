@@ -32,6 +32,7 @@ export default function MoodInput({ onSave }) {
           <button type="button" key={i}
             className={`rating-btn ${rating === i + 1 ? 'selected' : ''}`}
             onClick={() => setRating(i + 1)}
+            aria-label={labels[i]}
           >
             {emojis[i]}
           </button>

@@ -3,9 +3,7 @@ import MoodCard from '../components/MoodCard'
 import { useMoods } from '../hooks/useMoods'
 
 export default function MoodLog() {
-  const { moods, loading, addMood, deleteMood } = useMoods()
-
-  if (loading) return <p>Loading...</p>
+  const { moods, addMood, deleteMood } = useMoods()
 
   return (
     <div>

@@ -17,7 +17,7 @@ export default function Home() {
   const name = settings.userName || 'you'
   const groups = groupByDay(moods)
   const [dismissed, setDismissed] = useState(() => {
-    const ts = sessionStorage.getItem('oktav-dismissExport')
+    const ts = localStorage.getItem('oktav-dismissExport')
     return ts && (Date.now() - Number(ts)) < 7 * 24 * 60 * 60 * 1000
   })
   const showReminder = !dismissed && getDaysSinceExport() >= 7 && (moods.length > 0 || entries.length > 0)
@@ -34,7 +34,7 @@ export default function Home() {
           <span>It's been a while — consider exporting your data.</span>
           <div className="export-reminder-actions">
             <button className="btn" onClick={exportData}>Export</button>
-            <button className="export-dismiss" onClick={() => { sessionStorage.setItem('oktav-dismissExport', Date.now()); setDismissed(true) }}>×</button>
+            <button className="export-dismiss" onClick={() => { localStorage.setItem('oktav-dismissExport', Date.now()); setDismissed(true) }}>×</button>
           </div>
         </div>
       )}

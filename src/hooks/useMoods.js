@@ -3,12 +3,12 @@ import { useState, useCallback } from 'react'
 const STORAGE_KEY = 'oktav-moods'
 
 function loadFromStorage() {
-  try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]') }
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') }
   catch { return [] }
 }
 
 function saveToStorage(moods) {
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(moods))
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(moods))
 }
 
 export function useMoods() {
@@ -27,5 +27,5 @@ export function useMoods() {
     saveToStorage(updated)
   }, [])
 
-  return { moods, loading: false, addMood, deleteMood }
+  return { moods, addMood, deleteMood }
 }

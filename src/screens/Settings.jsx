@@ -1,20 +1,16 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useSettings } from '../hooks/useSettings'
 import { exportData } from '../utils/export'
 
 function getStorageItem(key) {
-  try { return JSON.parse(sessionStorage.getItem(key) || '[]') }
+  try { return JSON.parse(localStorage.getItem(key) || '[]') }
   catch { return [] }
 }
 
 export default function Settings() {
-  const { settings, loading, updateSettings } = useSettings()
-  const [name, setName] = useState('')
+  const { settings, updateSettings } = useSettings()
+  const [name, setName] = useState(settings.userName || '')
   const fileInputRef = useRef(null)
-
-  useEffect(() => {
-    if (settings) setName(settings.userName || '')
-  }, [settings])
 
   const handleSave = (e) => {
     e.preventDefault()
@@ -39,7 +35,7 @@ export default function Settings() {
           const existingIds = new Set(existing.map((m) => m.id))
           const newMoods = data.moods.filter((m) => !existingIds.has(m.id))
           const merged = [...newMoods, ...existing]
-          sessionStorage.setItem('oktav-moods', JSON.stringify(merged))
+          localStorage.setItem('oktav-moods', JSON.stringify(merged))
         }
 
         if (data.journal?.length) {
@@ -47,7 +43,7 @@ export default function Settings() {
           const existingIds = new Set(existing.map((e) => e.id))
           const newEntries = data.journal.filter((e) => !existingIds.has(e.id))
           const merged = [...newEntries, ...existing]
-          sessionStorage.setItem('oktav-journal', JSON.stringify(merged))
+          localStorage.setItem('oktav-journal', JSON.stringify(merged))
         }
 
         window.location.reload()
@@ -61,14 +57,12 @@ export default function Settings() {
 
   const handleClearData = () => {
     if (!window.confirm('This will delete all your moods, journal entries, and settings. This cannot be undone. Continue?')) return
-    sessionStorage.removeItem('oktav-moods')
-    sessionStorage.removeItem('oktav-journal')
-    sessionStorage.removeItem('oktav-settings')
-    sessionStorage.removeItem('oktav-lastExport')
+    localStorage.removeItem('oktav-moods')
+    localStorage.removeItem('oktav-journal')
+    localStorage.removeItem('oktav-settings')
+    localStorage.removeItem('oktav-lastExport')
     window.location.reload()
   }
-
-  if (loading) return <p>Loading...</p>
 
   return (
     <div>

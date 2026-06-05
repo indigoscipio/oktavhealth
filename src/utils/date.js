@@ -1,7 +1,3 @@
-export function today() {
-  return new Date().toISOString().split('T')[0]
-}
-
 export function formatDate(date) {
   return new Date(date).toLocaleDateString('en-US', {
     month: 'short',

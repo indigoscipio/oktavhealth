@@ -4,12 +4,12 @@ const STORAGE_KEY = 'oktav-settings'
 const DEFAULT_SETTINGS = { userName: '', theme: 'light' }
 
 function loadFromStorage() {
-  try { return { ...DEFAULT_SETTINGS, ...JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '{}') } }
+  try { return { ...DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') } }
   catch { return DEFAULT_SETTINGS }
 }
 
 function saveToStorage(settings) {
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(settings))
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(settings))
 }
 
 export function useSettings() {
@@ -21,5 +21,5 @@ export function useSettings() {
     saveToStorage(merged)
   }, [])
 
-  return { settings, loading: false, updateSettings }
+  return { settings, updateSettings }
 }

@@ -3,12 +3,12 @@ import { useState, useCallback } from 'react'
 const STORAGE_KEY = 'oktav-journal'
 
 function loadFromStorage() {
-  try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]') }
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') }
   catch { return [] }
 }
 
 function saveToStorage(entries) {
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(entries))
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries))
 }
 
 export function useJournal() {
@@ -27,5 +27,5 @@ export function useJournal() {
     saveToStorage(updated)
   }, [])
 
-  return { entries, loading: false, addEntry, deleteEntry }
+  return { entries, addEntry, deleteEntry }
 }

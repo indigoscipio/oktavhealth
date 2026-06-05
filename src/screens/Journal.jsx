@@ -3,7 +3,7 @@ import { useJournal } from '../hooks/useJournal'
 import { formatDate } from '../utils/date'
 
 export default function Journal() {
-  const { entries, loading, addEntry, deleteEntry } = useJournal()
+  const { entries, addEntry, deleteEntry } = useJournal()
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [editing, setEditing] = useState(false)
@@ -16,8 +16,6 @@ export default function Journal() {
     setBody('')
     setEditing(false)
   }
-
-  if (loading) return <p>Loading...</p>
 
   return (
     <div>

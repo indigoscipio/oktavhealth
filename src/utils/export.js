@@ -1,5 +1,5 @@
 function getStorageItem(key) {
-  try { return JSON.parse(sessionStorage.getItem(key) || '[]') }
+  try { return JSON.parse(localStorage.getItem(key) || '[]') }
   catch { return [] }
 }
 
@@ -15,11 +15,11 @@ export function exportData() {
   a.download = `oktavhealth-export-${new Date().toISOString().split('T')[0]}.json`
   a.click()
   URL.revokeObjectURL(url)
-  sessionStorage.setItem('oktav-lastExport', new Date().toISOString())
+  localStorage.setItem('oktav-lastExport', new Date().toISOString())
 }
 
 export function getDaysSinceExport() {
-  const last = sessionStorage.getItem('oktav-lastExport')
+  const last = localStorage.getItem('oktav-lastExport')
   if (!last) return 999
   const diff = Date.now() - new Date(last).getTime()
   return Math.floor(diff / (1000 * 60 * 60 * 24))

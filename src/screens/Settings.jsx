@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSettings } from '../hooks/useSettings'
 import { exportData } from '../utils/export'
-import db from '../db/db'
 
 function getStorageItem(key) {
   try { return JSON.parse(sessionStorage.getItem(key) || '[]') }
@@ -26,7 +25,7 @@ export default function Settings() {
     const file = e.target.files[0]
     if (!file) return
     const reader = new FileReader()
-    reader.onload = async (event) => {
+    reader.onload = (event) => {
       try {
         const data = JSON.parse(event.target.result)
         if (!data.moods && !data.journal) {
@@ -41,7 +40,6 @@ export default function Settings() {
           const newMoods = data.moods.filter((m) => !existingIds.has(m.id))
           const merged = [...newMoods, ...existing]
           sessionStorage.setItem('oktav-moods', JSON.stringify(merged))
-          await Promise.all(newMoods.map((m) => db.moods.put(m)))
         }
 
         if (data.journal?.length) {
@@ -50,7 +48,6 @@ export default function Settings() {
           const newEntries = data.journal.filter((e) => !existingIds.has(e.id))
           const merged = [...newEntries, ...existing]
           sessionStorage.setItem('oktav-journal', JSON.stringify(merged))
-          await Promise.all(newEntries.map((e) => db.journalEntries.put(e)))
         }
 
         window.location.reload()
@@ -62,17 +59,12 @@ export default function Settings() {
     e.target.value = ''
   }
 
-  const handleClearData = async () => {
+  const handleClearData = () => {
     if (!window.confirm('This will delete all your moods, journal entries, and settings. This cannot be undone. Continue?')) return
     sessionStorage.removeItem('oktav-moods')
     sessionStorage.removeItem('oktav-journal')
     sessionStorage.removeItem('oktav-settings')
     sessionStorage.removeItem('oktav-lastExport')
-    await Promise.all([
-      db.moods.clear(),
-      db.journalEntries.clear(),
-      db.settings.clear(),
-    ])
     window.location.reload()
   }
 

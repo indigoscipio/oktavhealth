@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
-import db from '../db/db'
+import { useState, useCallback } from 'react'
 
 const STORAGE_KEY = 'oktav-settings'
 const DEFAULT_SETTINGS = { userName: '', theme: 'light' }
@@ -16,23 +15,10 @@ function saveToStorage(settings) {
 export function useSettings() {
   const [settings, setSettings] = useState(loadFromStorage)
 
-  useEffect(() => {
-    db.settings.get('app-settings')
-      .then((result) => {
-        if (result) {
-          const merged = { ...DEFAULT_SETTINGS, ...result }
-          setSettings(merged)
-          saveToStorage(merged)
-        }
-      })
-      .catch(() => {})
-  }, [])
-
   const updateSettings = useCallback((updates) => {
     const merged = { ...loadFromStorage(), ...updates }
     setSettings(merged)
     saveToStorage(merged)
-    db.settings.put({ ...merged, id: 'app-settings' }).catch(() => {})
   }, [])
 
   return { settings, loading: false, updateSettings }

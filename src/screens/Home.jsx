@@ -17,7 +17,7 @@ export default function Home() {
   const name = settings.userName || 'you'
   const groups = groupByDay(moods)
   const [dismissed, setDismissed] = useState(false)
-  const showReminder = !dismissed && getDaysSinceExport() >= 7
+  const showReminder = !dismissed && getDaysSinceExport() >= 7 && (moods.length > 0 || entries.length > 0)
 
   return (
     <div>

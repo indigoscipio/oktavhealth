@@ -31,7 +31,7 @@ export default function MoodChart({ moods }) {
       <ResponsiveContainer width="100%" height={200}>
         <LineChart data={data}>
           <XAxis dataKey="label" tick={{ fontSize: 12 }} />
-          <YAxis domain={[1, 5]} ticks={[1, 2, 3, 4, 5]} tick={{ fontSize: 12 }} />
+          <YAxis domain={[1, 5]} ticks={[1, 2, 3, 4, 5]} tick={{ fontSize: 12 }} width={20} />
           <Tooltip content={<CustomTooltip />} />
           <Line type="monotone" dataKey="rating" stroke="#2c6e6f" strokeWidth={2} dot={{ r: 4 }} />
         </LineChart>

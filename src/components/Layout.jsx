@@ -4,7 +4,7 @@ export default function Layout({ view, onNavigate, children }) {
 
   return (
     <div className={isLanding ? 'lp' : 'app'}>
-      {!isLanding && <header>OktavHealth</header>}
+      {!isLanding && <header><img src="/logo.svg" alt="" height="24" style={{ marginRight: 8 }} />oktavhealth</header>}
       <main>{children}</main>
       {!isLanding && (
         <nav>

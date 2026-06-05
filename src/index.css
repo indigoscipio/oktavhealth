@@ -151,7 +151,10 @@ hr { border: none; border-top: 1px solid #dce4ec; margin: 16px 0; }
   padding: 12px 24px; display: flex; align-items: center; justify-content: space-between;
 }
 
-.lp-logo { font-size: 18px; font-weight: 700; color: #2c6e6f; }
+.lp-logo, header {
+  display: flex; align-items: center;
+  font-size: 18px; letter-spacing: -0.5px; text-transform: lowercase;
+}
 
 .lp-hero {
   text-align: center; padding: 80px 24px 60px;

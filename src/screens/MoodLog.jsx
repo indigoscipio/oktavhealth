@@ -10,7 +10,7 @@ export default function MoodLog() {
   return (
     <div>
       <h2>Mood Log</h2>
-      <MoodInput onSave={(rating, note) => addMood(rating, note)} />
+      <MoodInput onSave={(rating, note, tags, gratitude) => addMood(rating, note, tags, gratitude)} />
       <hr />
       {moods.length === 0 ? (
         <p className="empty-state">No entries yet.</p>

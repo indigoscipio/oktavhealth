@@ -12,6 +12,12 @@ export default function MoodCard({ mood, onDelete }) {
       </p>
       <p className="mood-meta">{formatDate(mood.createdAt)} at {formatTime(mood.createdAt)}</p>
       {mood.note && <p className="mood-note-text">{mood.note}</p>}
+      {mood.tags?.length > 0 && (
+        <div className="tag-row">
+          {mood.tags.map((tag) => <span key={tag} className="tag-pill">{tag}</span>)}
+        </div>
+      )}
+      {mood.gratitude && <p className="mood-gratitude">🙏 {mood.gratitude}</p>}
       {onDelete && (
         <button className="btn btn-danger" style={{ marginTop: 8 }} onClick={() => onDelete(mood.id)}>
           Delete

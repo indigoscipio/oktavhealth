@@ -27,8 +27,8 @@ export function useMoods() {
       .catch(() => {})
   }, [])
 
-  const addMood = useCallback((rating, note, tags) => {
-    const entry = { rating, note, tags: tags || [], createdAt: new Date() }
+  const addMood = useCallback((rating, note, tags, gratitude) => {
+    const entry = { rating, note, tags: tags || [], gratitude: gratitude || '', createdAt: new Date() }
     const tempId = Date.now()
     const updated = [{ ...entry, id: tempId }, ...loadFromStorage()]
     setMoods(updated)

@@ -19,22 +19,22 @@ header {
   letter-spacing: 0.5px;
 }
 
-main { flex: 1; padding: 16px 20px; padding-bottom: 80px; }
+.app main { flex: 1; padding: 16px 20px; padding-bottom: 80px; }
 
-nav {
+.app nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: white; border-top: 1px solid #dce4ec;
   display: flex; justify-content: space-around; padding: 8px 0;
   max-width: 480px; margin: 0 auto;
 }
 
-nav button {
+.app nav button {
   background: none; border: none; padding: 8px 16px;
   font-size: 14px; color: #6b7a8f; cursor: pointer;
   border-radius: 8px; transition: 0.15s;
 }
 
-nav button.active { color: #2c6e6f; font-weight: 600; background: #e8f0f0; }
+.app nav button.active { color: #2c6e6f; font-weight: 600; background: #e8f0f0; }
 
 h2 { font-size: 20px; margin-bottom: 12px; color: #1a2332; }
 h3 { font-size: 16px; margin-bottom: 8px; color: #2c3e4e; }
@@ -104,3 +104,92 @@ hr { border: none; border-top: 1px solid #dce4ec; margin: 16px 0; }
 .date-header { font-size: 13px; font-weight: 600; color: #2c6e6f; margin: 12px 0 6px; }
 
 .insight { font-size: 14px; color: #2c3e4e; margin-bottom: 4px; }
+
+.crisis-card {
+  background: #e8f4f8; border: 1px solid #b8dce8; border-radius: 12px;
+  padding: 14px 16px; margin-bottom: 16px;
+}
+.crisis-title { font-weight: 600; margin-bottom: 6px; color: #2c6e6f; }
+.crisis-card p { font-size: 13px; color: #2c3e4e; margin-bottom: 2px; }
+
+.tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.tag-btn {
+  padding: 4px 10px; border-radius: 16px; border: 1px solid #dce4ec;
+  background: white; font-size: 12px; color: #6b7a8f; cursor: pointer;
+  transition: 0.15s;
+}
+.tag-btn.selected { background: #2c6e6f; color: white; border-color: #2c6e6f; }
+.tag-btn:hover { border-color: #2c6e6f; }
+
+.tag-pill {
+  display: inline-block; padding: 2px 8px; border-radius: 12px;
+  background: #e8f0f0; color: #2c6e6f; font-size: 11px; font-weight: 500;
+}
+
+.mood-gratitude { font-size: 13px; color: #6b7a8f; margin-top: 4px; font-style: italic; }
+
+.export-reminder {
+  background: #fff8e1; border: 1px solid #f0d060; border-radius: 12px;
+  padding: 12px 16px; margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.export-reminder span { font-size: 13px; color: #6b5900; }
+.export-reminder-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.export-dismiss {
+  background: none; border: none; font-size: 18px; color: #6b5900;
+  cursor: pointer; padding: 0 4px; line-height: 1;
+}
+
+/* Landing page */
+.lp { min-height: 100vh; }
+
+.lp-nav {
+  position: sticky; top: 0; z-index: 10;
+  background: white; border-bottom: 1px solid #dce4ec;
+  padding: 12px 24px; display: flex; align-items: center; justify-content: space-between;
+}
+
+.lp-logo { font-size: 18px; font-weight: 700; color: #2c6e6f; }
+
+.lp-hero {
+  text-align: center; padding: 80px 24px 60px;
+  background: linear-gradient(180deg, #e8f0f0 0%, #f0f4f8 100%);
+}
+
+.lp-hero h1 { font-size: 36px; font-weight: 700; color: #1a2332; margin-bottom: 16px; line-height: 1.2; }
+.lp-hero p { font-size: 18px; color: #6b7a8f; max-width: 480px; margin: 0 auto 32px; }
+.lp-hero-btn { font-size: 18px; padding: 14px 40px; border-radius: 12px; }
+
+.lp-features { padding: 60px 24px; text-align: center; }
+.lp-features h2 { font-size: 24px; margin-bottom: 32px; color: #1a2332; }
+
+.lp-features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  max-width: 720px; margin: 0 auto;
+}
+
+.lp-feature-card {
+  background: white; border-radius: 12px; padding: 24px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06); text-align: left;
+}
+
+.lp-feature-icon { font-size: 32px; display: block; margin-bottom: 12px; }
+.lp-feature-card h3 { font-size: 16px; margin-bottom: 8px; color: #1a2332; }
+.lp-feature-card p { font-size: 14px; color: #6b7a8f; line-height: 1.5; }
+
+.lp-cta {
+  text-align: center; padding: 60px 24px;
+  background: #2c6e6f; color: white;
+}
+
+.lp-cta h2 { font-size: 24px; margin-bottom: 8px; color: white; }
+.lp-cta p { font-size: 16px; color: #c8e0e0; margin-bottom: 24px; }
+.lp-cta .btn { background: white; color: #2c6e6f; }
+.lp-cta .btn:hover { background: #e8f0f0; }
+
+.lp-footer { text-align: center; padding: 24px; color: #6b7a8f; font-size: 14px; }
+
+@media (max-width: 600px) {
+  .lp-features-grid { grid-template-columns: 1fr; }
+  .lp-hero h1 { font-size: 28px; }
+}

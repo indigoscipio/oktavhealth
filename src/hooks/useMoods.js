@@ -3,8 +3,10 @@ import { useState, useCallback } from 'react'
 const STORAGE_KEY = 'oktav-moods'
 
 function loadFromStorage() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') }
-  catch { return [] }
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+    return data.map((m) => ({ ...m, createdAt: new Date(m.createdAt) }))
+  } catch { return [] }
 }
 
 function saveToStorage(moods) {
@@ -15,16 +17,28 @@ export function useMoods() {
   const [moods, setMoods] = useState(loadFromStorage)
 
   const addMood = useCallback((rating, note, tags, gratitude) => {
-    const entry = { rating, note, tags: tags || [], gratitude: gratitude || '', id: Date.now(), createdAt: new Date() }
-    const updated = [entry, ...loadFromStorage()]
-    setMoods(updated)
-    saveToStorage(updated)
+    const entry = {
+      rating,
+      note,
+      tags: tags || [],
+      gratitude: gratitude || '',
+      id: crypto.randomUUID(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }
+    setMoods((prev) => {
+      const updated = [entry, ...prev]
+      saveToStorage(updated)
+      return updated
+    })
   }, [])
 
   const deleteMood = useCallback((id) => {
-    const updated = loadFromStorage().filter((m) => m.id !== id)
-    setMoods(updated)
-    saveToStorage(updated)
+    setMoods((prev) => {
+      const updated = prev.filter((m) => m.id !== id)
+      saveToStorage(updated)
+      return updated
+    })
   }, [])
 
   return { moods, addMood, deleteMood }

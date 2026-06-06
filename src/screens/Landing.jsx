@@ -2,7 +2,7 @@ export default function Landing({ onEnter }) {
   return (
     <div className="lp">
       <nav className="lp-nav">
-        <span className="lp-logo"><img src="/logo.svg" alt="" height="24" style={{ marginRight: 6 }} />oktavhealth</span>
+        <span className="lp-logo"><img src="/logo.svg" alt="" height="24" className="logo-icon" />oktavhealth</span>
         <button className="btn" onClick={onEnter}>Open App</button>
       </nav>
 

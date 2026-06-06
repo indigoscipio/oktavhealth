@@ -1,12 +1,12 @@
-function getStorageItem(key) {
-  try { return JSON.parse(localStorage.getItem(key) || '[]') }
-  catch { return [] }
+export function getStorageItem(key, fallback = []) {
+  try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)) }
+  catch { return fallback }
 }
 
 export function exportData() {
   const moods = getStorageItem('oktav-moods')
   const journal = getStorageItem('oktav-journal')
-  const settings = getStorageItem('oktav-settings')
+  const settings = getStorageItem('oktav-settings', {})
   const data = { exportedAt: new Date().toISOString(), moods, journal, settings }
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)

@@ -1,11 +1,7 @@
 import { useState, useRef } from 'react'
 import { useSettings } from '../hooks/useSettings'
-import { exportData } from '../utils/export'
-
-function getStorageItem(key) {
-  try { return JSON.parse(localStorage.getItem(key) || '[]') }
-  catch { return [] }
-}
+import { exportData, getStorageItem } from '../utils/export'
+import { validateMood, validateEntry } from '../utils/validate'
 
 export default function Settings() {
   const { settings, updateSettings } = useSettings()
@@ -24,16 +20,19 @@ export default function Settings() {
     reader.onload = (event) => {
       try {
         const data = JSON.parse(event.target.result)
-        if (!data.moods && !data.journal) {
+        if (!data.moods && !data.journal && !data.settings) {
           window.alert('Invalid file format. Please use an OktavHealth export file.')
           return
         }
-        if (!window.confirm(`Import ${data.moods?.length || 0} moods and ${data.journal?.length || 0} journal entries? This will merge with your existing data.`)) return
+        const moodCount = data.moods?.length || 0
+        const journalCount = data.journal?.length || 0
+        const hasSettings = data.settings && typeof data.settings === 'object' && data.settings.userName
+        if (!window.confirm(`Import ${moodCount} moods, ${journalCount} journal entries${hasSettings ? ' and settings' : ''}? This will merge with your existing data.`)) return
 
         if (data.moods?.length) {
           const existing = getStorageItem('oktav-moods')
           const existingIds = new Set(existing.map((m) => m.id))
-          const newMoods = data.moods.filter((m) => !existingIds.has(m.id))
+          const newMoods = data.moods.filter((m) => !existingIds.has(m.id) && validateMood(m))
           const merged = [...newMoods, ...existing]
           localStorage.setItem('oktav-moods', JSON.stringify(merged))
         }
@@ -41,9 +40,15 @@ export default function Settings() {
         if (data.journal?.length) {
           const existing = getStorageItem('oktav-journal')
           const existingIds = new Set(existing.map((e) => e.id))
-          const newEntries = data.journal.filter((e) => !existingIds.has(e.id))
+          const newEntries = data.journal.filter((e) => !existingIds.has(e.id) && validateEntry(e))
           const merged = [...newEntries, ...existing]
           localStorage.setItem('oktav-journal', JSON.stringify(merged))
+        }
+
+        if (hasSettings) {
+          const existing = JSON.parse(localStorage.getItem('oktav-settings') || '{}')
+          const merged = { ...existing, ...data.settings }
+          localStorage.setItem('oktav-settings', JSON.stringify(merged))
         }
 
         window.location.reload()
@@ -61,6 +66,7 @@ export default function Settings() {
     localStorage.removeItem('oktav-journal')
     localStorage.removeItem('oktav-settings')
     localStorage.removeItem('oktav-lastExport')
+    localStorage.removeItem('oktav-dismissExport')
     window.location.reload()
   }
 
@@ -79,8 +85,8 @@ export default function Settings() {
       </div>
       <hr />
       <div className="card">
-        <h3 style={{ marginBottom: 8 }}>Backup & Restore</h3>
-        <p style={{ fontSize: 14, color: '#6b7a8f', marginBottom: 12 }}>
+        <h3>Backup & Restore</h3>
+        <p className="card-description">
           Export your data regularly to avoid losing it. You can import it back anytime.
         </p>
         <button className="btn" onClick={exportData}>Export as JSON</button>{' '}
@@ -88,9 +94,9 @@ export default function Settings() {
         <input ref={fileInputRef} type="file" accept=".json" onChange={handleImport} style={{ display: 'none' }} />
       </div>
       <hr />
-      <div className="card" style={{ borderColor: '#e74c3c' }}>
-        <h3 style={{ marginBottom: 8, color: '#e74c3c' }}>Danger Zone</h3>
-        <p style={{ fontSize: 14, color: '#6b7a8f', marginBottom: 12 }}>
+      <div className="card card-danger">
+        <h3 className="danger-title">Danger Zone</h3>
+        <p className="card-description">
           Permanently delete all your moods, journal entries, and settings. This cannot be undone.
         </p>
         <button className="btn btn-danger" onClick={handleClearData}>Clear All Data</button>

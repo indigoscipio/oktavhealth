@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 
 const STORAGE_KEY = 'oktav-settings'
-const DEFAULT_SETTINGS = { userName: '', theme: 'light' }
+const DEFAULT_SETTINGS = { userName: '' }
 
 function loadFromStorage() {
   try { return { ...DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') } }
@@ -16,9 +16,11 @@ export function useSettings() {
   const [settings, setSettings] = useState(loadFromStorage)
 
   const updateSettings = useCallback((updates) => {
-    const merged = { ...loadFromStorage(), ...updates }
-    setSettings(merged)
-    saveToStorage(merged)
+    setSettings((prev) => {
+      const merged = { ...prev, ...updates }
+      saveToStorage(merged)
+      return merged
+    })
   }, [])
 
   return { settings, updateSettings }

@@ -32,7 +32,7 @@ export default function MoodInsights({ moods }) {
 
   return (
     <div className="card">
-      <h3 style={{ marginBottom: 8 }}>Insights</h3>
+      <h3>Insights</h3>
       {streak > 0 && <p className="insight">🔥 {streak} day streak — keep it up!</p>}
       {weekAvg && <p className="insight">📊 This week's average: {weekAvg}/5</p>}
       {weekMoods.length > 0 && <p className="insight">📝 {weekMoods.length} mood{weekMoods.length !== 1 && 's'} this week</p>}

@@ -3,8 +3,10 @@ import { useState, useCallback } from 'react'
 const STORAGE_KEY = 'oktav-journal'
 
 function loadFromStorage() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') }
-  catch { return [] }
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+    return data.map((e) => ({ ...e, createdAt: new Date(e.createdAt) }))
+  } catch { return [] }
 }
 
 function saveToStorage(entries) {
@@ -14,17 +16,27 @@ function saveToStorage(entries) {
 export function useJournal() {
   const [entries, setEntries] = useState(loadFromStorage)
 
-  const addEntry = useCallback(({ title, body, moodId }) => {
-    const entry = { title, body, moodId, id: Date.now(), createdAt: new Date() }
-    const updated = [entry, ...loadFromStorage()]
-    setEntries(updated)
-    saveToStorage(updated)
+  const addEntry = useCallback(({ title, body }) => {
+    const entry = {
+      title,
+      body,
+      id: crypto.randomUUID(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }
+    setEntries((prev) => {
+      const updated = [entry, ...prev]
+      saveToStorage(updated)
+      return updated
+    })
   }, [])
 
   const deleteEntry = useCallback((id) => {
-    const updated = loadFromStorage().filter((e) => e.id !== id)
-    setEntries(updated)
-    saveToStorage(updated)
+    setEntries((prev) => {
+      const updated = prev.filter((e) => e.id !== id)
+      saveToStorage(updated)
+      return updated
+    })
   }, [])
 
   return { entries, addEntry, deleteEntry }

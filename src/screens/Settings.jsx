@@ -177,6 +177,7 @@ export default function Settings() {
         </div>
         {settingPin && (
           <div style={{ marginTop: 8 }}>
+            <p className="pin-warning">⚠️ If you forget your PIN, there is no way to recover your data.</p>
             <input className="mood-note" type="password" placeholder="Enter 4-digit PIN" maxLength={4}
               value={pinInput} onChange={(e) => { setPinInput(e.target.value.replace(/\D/g, '').slice(0, 4)); setPinError('') }} />
             <input className="mood-note" type="password" placeholder="Confirm PIN" maxLength={4}

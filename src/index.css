@@ -248,6 +248,12 @@ hr { border: none; border-top: 1px solid var(--color-border); margin: var(--spac
 .lp-footer { text-align: center; padding: var(--space-lg); color: var(--color-muted); font-size: var(--text-base); }
 
 /* Lock screen */
+.pin-warning {
+  color: var(--color-danger); font-size: var(--text-sm); font-weight: 500;
+  margin-bottom: 12px; padding: 8px 12px;
+  background: #fde8e8; border-radius: var(--radius-sm);
+}
+
 .lock-screen {
   position: fixed; inset: 0; z-index: 100;
   background: var(--color-bg);

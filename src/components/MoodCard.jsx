@@ -1,9 +1,27 @@
+import { useState } from 'react'
 import { formatDate, formatTime } from '../utils/date'
+import MoodInput from './MoodInput'
 
 const emojis = ['😞', '😕', '😐', '🙂', '😊']
 const labels = ['Terrible', 'Bad', 'Okay', 'Good', 'Great']
 
-export default function MoodCard({ mood, onDelete }) {
+export default function MoodCard({ mood, onDelete, onEdit }) {
+  const [editing, setEditing] = useState(false)
+
+  if (editing) {
+    return (
+      <MoodInput
+        initialValues={{ rating: mood.rating, note: mood.note, tags: mood.tags, gratitude: mood.gratitude }}
+        onSave={(rating, note, tags, gratitude) => {
+          onEdit(mood.id, { rating, note, tags, gratitude })
+          setEditing(false)
+        }}
+        onCancel={() => setEditing(false)}
+        submitLabel="Save"
+      />
+    )
+  }
+
   return (
     <div className="card">
       <p>
@@ -18,11 +36,10 @@ export default function MoodCard({ mood, onDelete }) {
         </div>
       )}
       {mood.gratitude && <p className="mood-gratitude">🙏 {mood.gratitude}</p>}
-      {onDelete && (
-        <button className="btn btn-danger mood-delete" onClick={() => onDelete(mood.id)}>
-          Delete
-        </button>
-      )}
+      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+        {onEdit && <button className="btn btn-secondary" onClick={() => setEditing(true)}>Edit</button>}
+        {onDelete && <button className="btn btn-danger" onClick={() => onDelete(mood.id)}>Delete</button>}
+      </div>
     </div>
   )
 }

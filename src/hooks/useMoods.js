@@ -33,6 +33,14 @@ export function useMoods() {
     })
   }, [])
 
+  const editMood = useCallback((id, updates) => {
+    setMoods((prev) => {
+      const updated = prev.map((m) => m.id === id ? { ...m, ...updates, updatedAt: new Date() } : m)
+      saveToStorage(updated)
+      return updated
+    })
+  }, [])
+
   const deleteMood = useCallback((id) => {
     setMoods((prev) => {
       const updated = prev.filter((m) => m.id !== id)
@@ -41,5 +49,5 @@ export function useMoods() {
     })
   }, [])
 
-  return { moods, addMood, deleteMood }
+  return { moods, addMood, editMood, deleteMood }
 }

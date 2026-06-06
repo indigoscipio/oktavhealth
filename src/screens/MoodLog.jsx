@@ -3,7 +3,7 @@ import MoodCard from '../components/MoodCard'
 import { useMoods } from '../hooks/useMoods'
 
 export default function MoodLog() {
-  const { moods, addMood, deleteMood } = useMoods()
+  const { moods, addMood, editMood, deleteMood } = useMoods()
 
   return (
     <div>
@@ -14,7 +14,7 @@ export default function MoodLog() {
         <p className="empty-state">No entries yet.</p>
       ) : (
         moods.map((mood) => (
-          <MoodCard key={mood.id} mood={mood} onDelete={deleteMood} />
+          <MoodCard key={mood.id} mood={mood} onDelete={deleteMood} onEdit={editMood} />
         ))
       )}
     </div>

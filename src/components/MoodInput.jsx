@@ -4,11 +4,11 @@ const emojis = ['😞', '😕', '😐', '🙂', '😊']
 const labels = ['Terrible', 'Bad', 'Okay', 'Good', 'Great']
 const tagOptions = ['work', 'family', 'health', 'sleep', 'social', 'weather']
 
-export default function MoodInput({ onSave }) {
-  const [rating, setRating] = useState(null)
-  const [note, setNote] = useState('')
-  const [tags, setTags] = useState([])
-  const [gratitude, setGratitude] = useState('')
+export default function MoodInput({ onSave, initialValues, onCancel, submitLabel }) {
+  const [rating, setRating] = useState(initialValues?.rating ?? null)
+  const [note, setNote] = useState(initialValues?.note ?? '')
+  const [tags, setTags] = useState(initialValues?.tags ?? [])
+  const [gratitude, setGratitude] = useState(initialValues?.gratitude ?? '')
 
   const toggleTag = (tag) => {
     setTags((prev) => prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag])
@@ -18,10 +18,12 @@ export default function MoodInput({ onSave }) {
     e.preventDefault()
     if (!rating) return
     onSave(rating, note, tags, gratitude)
-    setRating(null)
-    setNote('')
-    setTags([])
-    setGratitude('')
+    if (!initialValues) {
+      setRating(null)
+      setNote('')
+      setTags([])
+      setGratitude('')
+    }
   }
 
   return (
@@ -56,7 +58,10 @@ export default function MoodInput({ onSave }) {
       <input className="mood-note" placeholder="What are you grateful for?"
         value={gratitude} onChange={(e) => setGratitude(e.target.value)} />
 
-      <button className="btn" type="submit" disabled={!rating}>Log Mood</button>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button className="btn" type="submit" disabled={!rating}>{submitLabel || 'Log Mood'}</button>
+        {onCancel && <button className="btn btn-secondary" type="button" onClick={onCancel}>Cancel</button>}
+      </div>
     </form>
   )
 }

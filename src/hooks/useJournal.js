@@ -31,6 +31,14 @@ export function useJournal() {
     })
   }, [])
 
+  const editEntry = useCallback((id, updates) => {
+    setEntries((prev) => {
+      const updated = prev.map((e) => e.id === id ? { ...e, ...updates, updatedAt: new Date() } : e)
+      saveToStorage(updated)
+      return updated
+    })
+  }, [])
+
   const deleteEntry = useCallback((id) => {
     setEntries((prev) => {
       const updated = prev.filter((e) => e.id !== id)
@@ -39,5 +47,5 @@ export function useJournal() {
     })
   }, [])
 
-  return { entries, addEntry, deleteEntry }
+  return { entries, addEntry, editEntry, deleteEntry }
 }

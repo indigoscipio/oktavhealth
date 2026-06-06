@@ -4,6 +4,7 @@ import MoodInput from '../components/MoodInput'
 import MoodCard from '../components/MoodCard'
 import MoodChart from '../components/MoodChart'
 import MoodInsights from '../components/MoodInsights'
+import WeeklySummary from '../components/WeeklySummary'
 import { useMoods } from '../hooks/useMoods'
 import { useJournal } from '../hooks/useJournal'
 import { useSettings } from '../hooks/useSettings'
@@ -11,7 +12,7 @@ import { formatDate, groupByDay } from '../utils/date'
 import { exportData, getDaysSinceExport } from '../utils/export'
 
 export default function Home() {
-  const { moods, addMood, deleteMood } = useMoods()
+  const { moods, addMood, editMood, deleteMood } = useMoods()
   const { entries } = useJournal()
   const { settings } = useSettings()
   const name = settings.userName || 'you'
@@ -45,6 +46,8 @@ export default function Home() {
 
       <MoodInsights moods={moods} />
 
+      <WeeklySummary moods={moods} />
+
       {moods.length >= 2 && <MoodChart moods={moods} />}
 
       <hr />
@@ -57,7 +60,7 @@ export default function Home() {
           <div key={day}>
             <p className="date-header">{formatDate(day)}</p>
             {dayMoods.map((mood) => (
-              <MoodCard key={mood.id} mood={mood} onDelete={deleteMood} />
+              <MoodCard key={mood.id} mood={mood} onDelete={deleteMood} onEdit={editMood} />
             ))}
           </div>
         ))

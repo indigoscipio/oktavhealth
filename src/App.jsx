@@ -6,6 +6,7 @@ import MoodLog from './screens/MoodLog'
 import Journal from './screens/Journal'
 import Settings from './screens/Settings'
 import LockScreen from './screens/LockScreen'
+import { startReminder, stopReminder } from './utils/notifications'
 
 export default function App() {
   const [view, setView] = useState('landing')
@@ -21,6 +22,16 @@ export default function App() {
       return s.pinHash || null
     } catch { return null }
   })
+
+  useEffect(() => {
+    const s = JSON.parse(localStorage.getItem('oktav-settings') || '{}')
+    startReminder({
+      enabled: s.reminderEnabled,
+      hour: s.reminderHour ?? 20,
+      minute: s.reminderMinute ?? 0,
+    })
+    return () => stopReminder()
+  }, [])
 
   useEffect(() => {
     const handleStorage = () => {

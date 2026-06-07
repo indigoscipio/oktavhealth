@@ -23,8 +23,9 @@ export function startReminder({ enabled, hour, minute }) {
     if (now.getHours() === hour && now.getMinutes() === minute) {
       const lastFired = localStorage.getItem('oktav-lastReminder')
       const today = now.toISOString().split('T')[0]
-      if (lastFired !== today) {
-        localStorage.setItem('oktav-lastReminder', today)
+      const key = `${today}-${hour}-${minute}`
+      if (lastFired !== key) {
+        localStorage.setItem('oktav-lastReminder', key)
         sendNotification('oktavhealth', {
           body: 'Hey, how are you feeling?',
           icon: '/logo.svg',

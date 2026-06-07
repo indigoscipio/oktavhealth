@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useSettings } from '../hooks/useSettings'
 import { exportData, getStorageItem } from '../utils/export'
 import { validateMood, validateEntry } from '../utils/validate'
@@ -17,14 +17,6 @@ export default function Settings() {
   const [pinError, setPinError] = useState('')
   const fileInputRef = useRef(null)
 
-  useEffect(() => {
-    startReminder({
-      enabled: reminderEnabled,
-      hour: parseInt(reminderTime.split(':')[0]),
-      minute: parseInt(reminderTime.split(':')[1]),
-    })
-  }, [reminderEnabled, reminderTime])
-
   const handleSave = (e) => {
     e.preventDefault()
     updateSettings({ userName: name })
@@ -41,6 +33,11 @@ export default function Settings() {
     const next = !reminderEnabled
     setReminderEnabled(next)
     updateSettings({ reminderEnabled: next })
+    startReminder({
+      enabled: next,
+      hour: parseInt(reminderTime.split(':')[0]),
+      minute: parseInt(reminderTime.split(':')[1]),
+    })
   }
 
   const handleReminderTime = (e) => {
@@ -48,6 +45,11 @@ export default function Settings() {
     setReminderTime(time)
     const [hour, minute] = time.split(':').map(Number)
     updateSettings({ reminderTime: time, reminderHour: hour, reminderMinute: minute })
+    startReminder({
+      enabled: reminderEnabled,
+      hour,
+      minute,
+    })
   }
 
   const handleSetPin = async () => {
@@ -145,7 +147,7 @@ export default function Settings() {
 
       <div className="card">
         <h3>Reminders</h3>
-        <p className="card-description">Get a daily reminder to check in with yourself.</p>
+        <p className="card-description">Get a daily reminder to check in with yourself. Allow browser notifications when prompted, and make sure OS notifications are on (Windows: Action Center · Mac: System Settings → Notifications).</p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
           <span>Daily reminder</span>
           <button className={`toggle-btn ${reminderEnabled ? 'active' : ''}`} onClick={handleReminderToggle} type="button">

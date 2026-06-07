@@ -69,7 +69,7 @@ export default function App() {
       <Layout view={view} onNavigate={setView}>
         {renderView()}
       </Layout>
-      {showOnboarding && (
+      {showOnboarding && view !== 'landing' && (
         <OnboardingModal onDismiss={() => {
           localStorage.setItem('oktav-onboarded', 'true')
           setShowOnboarding(false)

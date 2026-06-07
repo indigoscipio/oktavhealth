@@ -61,10 +61,10 @@ export default function JournalEntryCard({ entry, onDelete, onEdit }) {
       <p className="text-sm text-gray-700 mb-3">{entry.body}</p>
 
       <div className="flex gap-2">
-        <Button variant="outline" onClick={() => onDelete(entry.id)} className="text-danger-500 border-danger-100 hover:bg-danger-50">
+        <Button variant="dangerSoft" size="sm" onClick={() => onDelete(entry.id)}>
           Delete
         </Button>
-        <Button variant="outline" onClick={() => setEditing(true)}>
+        <Button variant="outline" size="sm" onClick={() => setEditing(true)}>
           Edit
         </Button>
       </div>

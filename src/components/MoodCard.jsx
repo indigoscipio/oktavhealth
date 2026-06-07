@@ -50,7 +50,7 @@ export default function MoodCard({ mood, onDelete, onEdit }) {
 
       <div className="flex gap-2">
         {onDelete && (
-          <Button variant="outline" size="sm" onClick={() => onDelete(mood.id)} className="text-danger-500 border-danger-100 hover:bg-danger-50">
+          <Button variant="dangerSoft" size="sm" onClick={() => onDelete(mood.id)}>
             Delete
           </Button>
         )}

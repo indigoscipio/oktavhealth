@@ -130,6 +130,7 @@ export default function Settings() {
     localStorage.removeItem('oktav-settings')
     localStorage.removeItem('oktav-lastExport')
     localStorage.removeItem('oktav-dismissExport')
+    localStorage.removeItem('oktav-onboarded')
     window.location.reload()
   }
 

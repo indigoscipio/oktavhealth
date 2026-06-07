@@ -32,28 +32,28 @@ export default function MoodInsights({ moods }) {
     : null
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-4">
-      <h2 className="text-lg font-bold text-gray-900 mb-3">Insights</h2>
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-4">
+      <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-3">Insights</h2>
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-gray-50 rounded-xl p-3">
-          <Flame size={16} className="text-brand-800 mb-1" />
-          <p className="text-2xl font-bold text-gray-900">{streak}</p>
-          <p className="text-xs text-gray-500">day streak</p>
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+          <Flame size={16} className="text-brand-800 dark:text-brand-400 mb-1" />
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{streak}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">day streak</p>
         </div>
-        <div className="bg-gray-50 rounded-xl p-3">
-          <TrendingUp size={16} className="text-brand-800 mb-1" />
-          <p className="text-2xl font-bold text-gray-900">{weekAvg || '—'}</p>
-          <p className="text-xs text-gray-500">weekly avg</p>
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+          <TrendingUp size={16} className="text-brand-800 dark:text-brand-400 mb-1" />
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{weekAvg || '—'}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">weekly avg</p>
         </div>
-        <div className="bg-gray-50 rounded-xl p-3">
-          <Calendar size={16} className="text-brand-800 mb-1" />
-          <p className="text-2xl font-bold text-gray-900">{weekMoods.length}</p>
-          <p className="text-xs text-gray-500">moods this week</p>
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+          <Calendar size={16} className="text-brand-800 dark:text-brand-400 mb-1" />
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{weekMoods.length}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">moods this week</p>
         </div>
-        <div className="bg-gray-50 rounded-xl p-3">
-          <BarChart3 size={16} className="text-brand-800 mb-1" />
-          <p className="text-2xl font-bold text-gray-900">{moods.length}</p>
-          <p className="text-xs text-gray-500">total moods</p>
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+          <BarChart3 size={16} className="text-brand-800 dark:text-brand-400 mb-1" />
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{moods.length}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">total moods</p>
         </div>
       </div>
     </div>

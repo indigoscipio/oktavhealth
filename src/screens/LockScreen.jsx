@@ -28,10 +28,10 @@ export default function LockScreen({ pinHash, onUnlock }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-gray-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 bg-gray-50 dark:bg-gray-800 flex items-center justify-center">
       <div className="text-center w-[280px]">
         <img src="/logo.svg" alt="oktavhealth" height="48" className="mx-auto mb-4" />
-        <p className="text-sm text-gray-500 mb-6">Enter PIN to unlock</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Enter PIN to unlock</p>
 
         <div className={`flex gap-4 justify-center mb-8 ${error ? 'animate-[shake_0.4s]' : ''}`}>
           {[0, 1, 2, 3].map((i) => (
@@ -42,7 +42,7 @@ export default function LockScreen({ pinHash, onUnlock }) {
                   ? 'border-danger-500'
                   : digits.length > i
                     ? 'bg-brand-800 border-brand-800'
-                    : 'bg-white border-gray-200'
+                    : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600'
               }`}
             />
           ))}
@@ -52,7 +52,7 @@ export default function LockScreen({ pinHash, onUnlock }) {
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
             <button
               key={d}
-              className="w-14 h-14 rounded-full border border-gray-200 bg-white text-lg font-medium cursor-pointer hover:bg-gray-50 active:scale-95 transition-all mx-auto flex items-center justify-center"
+              className="w-14 h-14 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-lg font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all mx-auto flex items-center justify-center"
               onClick={() => handleDigit(String(d))}
             >
               {d}
@@ -60,13 +60,13 @@ export default function LockScreen({ pinHash, onUnlock }) {
           ))}
           <span />
           <button
-            className="w-14 h-14 rounded-full border border-gray-200 bg-white text-lg font-medium cursor-pointer hover:bg-gray-50 active:scale-95 transition-all mx-auto flex items-center justify-center"
+            className="w-14 h-14 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-lg font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all mx-auto flex items-center justify-center"
             onClick={() => handleDigit('0')}
           >
             0
           </button>
           <button
-            className="w-14 h-14 rounded-full border border-gray-200 bg-white text-lg font-medium cursor-pointer hover:bg-gray-50 active:scale-95 transition-all mx-auto flex items-center justify-center"
+            className="w-14 h-14 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-lg font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 active:scale-95 transition-all mx-auto flex items-center justify-center"
             onClick={handleDelete}
           >
             ⌫

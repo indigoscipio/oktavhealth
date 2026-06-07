@@ -29,9 +29,9 @@ export default function MoodInput({ onSave, initialValues, onCancel, submitLabel
   }
 
   return (
-    <form className="bg-white border border-gray-200 rounded-2xl p-4" onSubmit={handleSubmit}>
-      <h2 className="text-lg font-bold text-gray-900 mb-1">How are you feeling?</h2>
-      <p className="text-[11px] font-semibold text-gray-400 tracking-wider uppercase mb-3">Tap an emoji</p>
+    <form className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-4" onSubmit={handleSubmit}>
+      <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1">How are you feeling?</h2>
+      <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 tracking-wider uppercase mb-3">Tap an emoji</p>
 
       <div className="flex gap-3 mb-3 justify-center">
         {[0, 1, 2, 3, 4].map((i) => (
@@ -40,8 +40,8 @@ export default function MoodInput({ onSave, initialValues, onCancel, submitLabel
             key={i}
             className={`w-12 h-12 rounded-full border-2 flex items-center justify-center text-xl transition-all cursor-pointer ${
               rating === i + 1
-                ? 'border-brand-800 bg-brand-50 scale-110'
-                : 'border-gray-200 bg-white hover:border-gray-300'
+                ? 'border-brand-800 dark:border-brand-400 bg-brand-50 dark:bg-brand-900/30 scale-110'
+                : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
             }`}
             onClick={() => setRating(i + 1)}
             aria-label={labels[i]}
@@ -50,16 +50,16 @@ export default function MoodInput({ onSave, initialValues, onCancel, submitLabel
           </button>
         ))}
       </div>
-      <p className="text-xs text-gray-400 text-center mb-4">
+      <p className="text-xs text-gray-400 dark:text-gray-500 text-center mb-4">
         {rating ? labels[rating - 1] : ''}
       </p>
 
       <div className="relative mb-3">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
           <FileText size={16} />
         </span>
         <input
-          className="w-full rounded-xl border border-gray-200 py-2.5 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-800/20 focus:border-brand-800"
+          className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 py-2.5 pl-9 pr-3 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-800/20 focus:border-brand-800"
           placeholder="Add a note (Optional)"
           value={note}
           onChange={(e) => setNote(e.target.value)}
@@ -74,7 +74,7 @@ export default function MoodInput({ onSave, initialValues, onCancel, submitLabel
             className={`px-3 py-1 rounded-full border text-xs font-medium transition-colors cursor-pointer ${
               tags.includes(tag)
                 ? 'bg-brand-800 text-white border-brand-800'
-                : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+                : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
             }`}
             onClick={() => toggleTag(tag)}
           >
@@ -84,11 +84,11 @@ export default function MoodInput({ onSave, initialValues, onCancel, submitLabel
       </div>
 
       <div className="relative mb-4">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
           <HelpCircle size={16} />
         </span>
         <input
-          className="w-full rounded-xl border border-gray-200 py-2.5 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-800/20 focus:border-brand-800"
+          className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 py-2.5 pl-9 pr-3 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-800/20 focus:border-brand-800"
           placeholder="What are you grateful for?"
           value={gratitude}
           onChange={(e) => setGratitude(e.target.value)}

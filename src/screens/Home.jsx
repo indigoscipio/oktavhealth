@@ -28,17 +28,17 @@ export default function Home() {
   return (
     <div className="space-y-4 pt-2">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Hello, {name}! 👋</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Hello, {name}! 👋</h1>
         {(moods.length > 0 || entries.length > 0) && (
-          <p className="text-sm text-gray-500 mt-0.5">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
             {moods.length} mood{moods.length !== 1 && 's'}  ·  {entries.length} journal {entries.length !== 1 ? 'entries' : 'entry'}
           </p>
         )}
       </div>
 
       {showReminder && (
-        <div className="bg-white border border-gray-200 rounded-2xl p-4 flex items-center justify-between gap-3">
-          <p className="text-sm text-gray-700">Let's backup your health data weekly.</p>
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 flex items-center justify-between gap-3">
+          <p className="text-sm text-gray-700 dark:text-gray-300">Let's backup your health data weekly.</p>
           <Button size="sm" onClick={exportData} leftIcon={Download}>
             Backup Now
           </Button>
@@ -56,13 +56,13 @@ export default function Home() {
       {moods.length >= 2 && <MoodChart moods={moods} />}
 
       <div>
-        <h2 className="text-lg font-bold text-gray-900 mb-3">Recent Activity</h2>
+        <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-3">Recent Activity</h2>
         {moods.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-8">No moods logged yet. Tap an emoji above to get started.</p>
+          <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">No moods logged yet. Tap an emoji above to get started.</p>
         ) : (
           groups.map(([day, dayMoods]) => (
             <div key={day} className="mb-4">
-              <p className="text-xs font-semibold text-gray-400 mb-2">{formatDate(day)}</p>
+              <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 mb-2">{formatDate(day)}</p>
               <div className="space-y-3">
                 {dayMoods.map((mood) => (
                   <MoodCard key={mood.id} mood={mood} onDelete={deleteMood} onEdit={editMood} />

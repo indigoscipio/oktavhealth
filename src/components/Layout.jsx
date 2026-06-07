@@ -16,14 +16,11 @@ export default function Layout({ view, onNavigate, children }) {
 
   return (
     <div className="mx-auto max-w-[480px] min-h-screen flex flex-col bg-gray-50">
-      <header className="flex items-center justify-between px-4 py-3 bg-white">
-        <div className="flex items-center gap-2">
-          <img src="/logo.svg" alt="oktavhealth" height="28" />
-          <span className="text-lg font-bold text-brand-800 tracking-tight">oktavhealth</span>
-        </div>
-        <div className="w-10 h-10 rounded-full bg-brand-800 flex items-center justify-center text-white">
+      <header className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200">
+        <img src="/logo.svg" alt="oktavhealth" height="28" />
+        <button onClick={() => onNavigate('Settings')} className="w-10 h-10 rounded-full bg-brand-800 flex items-center justify-center text-white cursor-pointer">
           <User size={18} />
-        </div>
+        </button>
       </header>
 
       <main className="flex-1 px-4 pb-20">{children}</main>

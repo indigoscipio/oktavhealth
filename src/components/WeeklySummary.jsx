@@ -43,7 +43,7 @@ export default function WeeklySummary({ moods }) {
   const bestDayName = bestDay ? new Date(bestDay[0] + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long' }) : null
 
   return (
-    <div className="bg-white rounded-2xl p-4">
+    <div className="bg-white border border-gray-200 rounded-2xl p-4">
       <h2 className="text-lg font-bold text-gray-900 mb-3">This Week</h2>
       <div className="space-y-2">
         <div className="flex items-center gap-2 text-sm text-gray-700">

@@ -30,6 +30,12 @@
   --font-family-sans: 'Quicksand', sans-serif;
 }
 
+@layer base {
+  body {
+    @apply font-sans;
+  }
+}
+
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   20%, 60% { transform: translateX(-6px); }

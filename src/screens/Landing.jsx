@@ -23,10 +23,7 @@ export default function Landing({ onEnter }) {
   return (
     <div className="min-h-screen">
       <nav className="sticky top-0 z-10 bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <img src="/logo.svg" alt="oktavhealth" height="24" />
-          <span className="text-lg font-bold text-brand-800 tracking-tight">oktavhealth</span>
-        </div>
+        <img src="/logo.svg" alt="oktavhealth" height="24" />
         <Button onClick={onEnter} rightIcon={ArrowRight}>
           Open App
         </Button>
@@ -59,7 +56,7 @@ export default function Landing({ onEnter }) {
           {features.map(({ icon: Icon, title, description }) => (
             <div
               key={title}
-              className="bg-white rounded-2xl p-6 text-left shadow-sm border border-gray-100"
+              className="bg-white rounded-2xl p-6 text-left shadow-sm border border-gray-200"
             >
               <div className="w-10 h-10 rounded-full bg-accent-100 flex items-center justify-center mb-4">
                 <Icon size={18} className="text-accent-600" />

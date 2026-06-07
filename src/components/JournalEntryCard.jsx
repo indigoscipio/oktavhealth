@@ -17,7 +17,7 @@ export default function JournalEntryCard({ entry, onDelete, onEdit }) {
 
   if (editing) {
     return (
-      <div className="bg-white rounded-2xl p-4">
+      <div className="bg-white border border-gray-200 rounded-2xl p-4">
         <form onSubmit={handleSave} className="space-y-3">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Title (optional)</label>
@@ -47,7 +47,7 @@ export default function JournalEntryCard({ entry, onDelete, onEdit }) {
   }
 
   return (
-    <div className="bg-white rounded-2xl p-4">
+    <div className="bg-white border border-gray-200 rounded-2xl p-4">
       <div className="flex items-start gap-3 mb-2">
         <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
           <BookOpen size={16} className="text-gray-500" />

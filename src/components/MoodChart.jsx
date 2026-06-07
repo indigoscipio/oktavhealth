@@ -7,7 +7,7 @@ function CustomTooltip({ active, payload }) {
   if (!active || !payload?.length) return null
   const d = payload[0].payload
   return (
-    <div className="bg-white rounded-2xl p-3 shadow-lg border border-gray-100">
+    <div className="bg-white rounded-2xl p-3 shadow-lg border border-gray-200">
       <p className="font-bold text-gray-900 text-sm">{labels[d.rating - 1]} ({d.rating}/5)</p>
       <p className="text-xs text-gray-500">{formatDate(d.createdAt)}</p>
       {d.note && <p className="text-xs text-gray-700 mt-1">{d.note}</p>}
@@ -26,7 +26,7 @@ export default function MoodChart({ moods }) {
   }))
 
   return (
-    <div className="bg-white rounded-2xl p-4">
+    <div className="bg-white border border-gray-200 rounded-2xl p-4">
       <h3 className="text-base font-bold text-gray-900 mb-3">Mood Over Time</h3>
       <ResponsiveContainer width="100%" height={200}>
         <LineChart data={data}>

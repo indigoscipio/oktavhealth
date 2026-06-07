@@ -32,7 +32,7 @@ export default function MoodInsights({ moods }) {
     : null
 
   return (
-    <div className="bg-white rounded-2xl p-4">
+    <div className="bg-white border border-gray-200 rounded-2xl p-4">
       <h2 className="text-lg font-bold text-gray-900 mb-3">Insights</h2>
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-gray-50 rounded-xl p-3">

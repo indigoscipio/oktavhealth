@@ -24,7 +24,7 @@ export default function MoodCard({ mood, onDelete, onEdit }) {
   }
 
   return (
-    <div className="bg-white rounded-2xl p-4">
+    <div className="bg-white border border-gray-200 rounded-2xl p-4">
       <div className="flex items-start gap-3 mb-2">
         <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-xl shrink-0">
           {emojis[mood.rating - 1]}

@@ -29,7 +29,7 @@ export default function MoodInput({ onSave, initialValues, onCancel, submitLabel
   }
 
   return (
-    <form className="bg-white rounded-2xl p-4" onSubmit={handleSubmit}>
+    <form className="bg-white border border-gray-200 rounded-2xl p-4" onSubmit={handleSubmit}>
       <h2 className="text-lg font-bold text-gray-900 mb-1">How are you feeling?</h2>
       <p className="text-[11px] font-semibold text-gray-400 tracking-wider uppercase mb-3">Tap an emoji</p>
 

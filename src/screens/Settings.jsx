@@ -138,7 +138,7 @@ export default function Settings() {
       <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
 
       {/* Name */}
-      <div className="bg-white rounded-2xl p-4">
+      <div className="bg-white border border-gray-200 rounded-2xl p-4">
         <h2 className="text-base font-bold text-gray-900 mb-3">Name</h2>
         <form onSubmit={handleSave} className="space-y-3">
           <Input
@@ -152,7 +152,7 @@ export default function Settings() {
       </div>
 
       {/* Reminders */}
-      <div className="bg-white rounded-2xl p-4">
+      <div className="bg-white border border-gray-200 rounded-2xl p-4">
         <h2 className="text-base font-bold text-gray-900 mb-1">Reminders</h2>
         <p className="text-sm text-gray-500 mb-3">
           Get a daily reminder to check in with yourself. Allow browser notifications when prompted, and make sure OS notifications are on (Windows: Action Center · Mac: System Settings → Notifications).
@@ -182,7 +182,7 @@ export default function Settings() {
       </div>
 
       {/* Security */}
-      <div className="bg-white rounded-2xl p-4">
+      <div className="bg-white border border-gray-200 rounded-2xl p-4">
         <h2 className="text-base font-bold text-gray-900 mb-1">Security</h2>
         <p className="text-sm text-gray-500 mb-3">
           Require a PIN to open the app. If you forget your PIN, your data cannot be recovered.
@@ -232,7 +232,7 @@ export default function Settings() {
       </div>
 
       {/* Backup & Restore */}
-      <div className="bg-white rounded-2xl p-4">
+      <div className="bg-white border border-gray-200 rounded-2xl p-4">
         <h2 className="text-base font-bold text-gray-900 mb-1">Backup & Restore</h2>
         <p className="text-sm text-gray-500 mb-3">
           Export your data regularly to avoid losing it. You can import it back anytime.

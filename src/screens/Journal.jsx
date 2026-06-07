@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import { useJournal } from '../hooks/useJournal'
 import JournalEntryCard from '../components/JournalEntryCard'
-import MoodInput from '../components/MoodInput'
 import Button from '../components/Button'
+import { formatDate, groupByDay } from '../utils/date'
 
 export default function Journal() {
   const { entries, addEntry, editEntry, deleteEntry } = useJournal()
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [showForm, setShowForm] = useState(false)
+  const groups = groupByDay(entries)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -61,11 +62,16 @@ export default function Journal() {
         {entries.length === 0 ? (
           <p className="text-sm text-gray-400 text-center py-8">No journal entries yet.</p>
         ) : (
-          <div className="space-y-3">
-            {entries.map((entry) => (
-              <JournalEntryCard key={entry.id} entry={entry} onDelete={deleteEntry} onEdit={editEntry} />
-            ))}
-          </div>
+          groups.map(([day, dayEntries]) => (
+            <div key={day} className="mb-4">
+              <p className="text-xs font-semibold text-gray-400 mb-2">{formatDate(day)}</p>
+              <div className="space-y-3">
+                {dayEntries.map((entry) => (
+                  <JournalEntryCard key={entry.id} entry={entry} onDelete={deleteEntry} onEdit={editEntry} />
+                ))}
+              </div>
+            </div>
+          ))
         )}
       </div>
     </div>

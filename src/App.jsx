@@ -6,10 +6,14 @@ import MoodLog from './screens/MoodLog'
 import Journal from './screens/Journal'
 import Settings from './screens/Settings'
 import LockScreen from './screens/LockScreen'
+import OnboardingModal from './components/OnboardingModal'
 import { startReminder, stopReminder } from './utils/notifications'
 
 export default function App() {
   const [view, setView] = useState('landing')
+  const [showOnboarding, setShowOnboarding] = useState(() => {
+    return !localStorage.getItem('oktav-onboarded')
+  })
   const [locked, setLocked] = useState(() => {
     try {
       const s = JSON.parse(localStorage.getItem('oktav-settings') || '{}')
@@ -61,8 +65,16 @@ export default function App() {
   }
 
   return (
-    <Layout view={view} onNavigate={setView}>
-      {renderView()}
-    </Layout>
+    <>
+      <Layout view={view} onNavigate={setView}>
+        {renderView()}
+      </Layout>
+      {showOnboarding && (
+        <OnboardingModal onDismiss={() => {
+          localStorage.setItem('oktav-onboarded', 'true')
+          setShowOnboarding(false)
+        }} />
+      )}
+    </>
   )
 }

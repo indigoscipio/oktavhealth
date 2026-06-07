@@ -1,4 +1,5 @@
 import { toDayKey } from '../utils/date'
+import { Flame, TrendingUp, Calendar, BarChart3 } from 'lucide-react'
 
 function getStreak(moods) {
   if (moods.length === 0) return 0
@@ -31,11 +32,30 @@ export default function MoodInsights({ moods }) {
     : null
 
   return (
-    <div className="card">
-      <h3>Insights</h3>
-      {streak > 0 && <p className="insight">🔥 {streak} day streak — keep it up!</p>}
-      {weekAvg && <p className="insight">📊 This week's average: {weekAvg}/5</p>}
-      {weekMoods.length > 0 && <p className="insight">📝 {weekMoods.length} mood{weekMoods.length !== 1 && 's'} this week</p>}
+    <div className="bg-white rounded-2xl p-4">
+      <h2 className="text-lg font-bold text-gray-900 mb-3">Insights</h2>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-gray-50 rounded-xl p-3">
+          <Flame size={16} className="text-brand-800 mb-1" />
+          <p className="text-2xl font-bold text-gray-900">{streak}</p>
+          <p className="text-xs text-gray-500">day streak</p>
+        </div>
+        <div className="bg-gray-50 rounded-xl p-3">
+          <TrendingUp size={16} className="text-brand-800 mb-1" />
+          <p className="text-2xl font-bold text-gray-900">{weekAvg || '—'}</p>
+          <p className="text-xs text-gray-500">weekly avg</p>
+        </div>
+        <div className="bg-gray-50 rounded-xl p-3">
+          <Calendar size={16} className="text-brand-800 mb-1" />
+          <p className="text-2xl font-bold text-gray-900">{weekMoods.length}</p>
+          <p className="text-xs text-gray-500">moods this week</p>
+        </div>
+        <div className="bg-gray-50 rounded-xl p-3">
+          <BarChart3 size={16} className="text-brand-800 mb-1" />
+          <p className="text-2xl font-bold text-gray-900">{moods.length}</p>
+          <p className="text-xs text-gray-500">total moods</p>
+        </div>
+      </div>
     </div>
   )
 }

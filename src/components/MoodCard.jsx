@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { formatDate, formatTime } from '../utils/date'
 import MoodInput from './MoodInput'
+import Button from './Button'
 
 const emojis = ['😞', '😕', '😐', '🙂', '😊']
 const labels = ['Terrible', 'Bad', 'Okay', 'Good', 'Great']
@@ -23,22 +24,41 @@ export default function MoodCard({ mood, onDelete, onEdit }) {
   }
 
   return (
-    <div className="card">
-      <p>
-        <span className="mood-emoji">{emojis[mood.rating - 1]}</span>{' '}
-        <strong>{labels[mood.rating - 1]}</strong>
-      </p>
-      <p className="mood-meta">{formatDate(mood.createdAt)} at {formatTime(mood.createdAt)}</p>
-      {mood.note && <p className="mood-note-text">{mood.note}</p>}
+    <div className="bg-white rounded-2xl p-4">
+      <div className="flex items-start gap-3 mb-2">
+        <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-xl shrink-0">
+          {emojis[mood.rating - 1]}
+        </div>
+        <div className="min-w-0">
+          <p className="font-bold text-gray-900">{labels[mood.rating - 1]}</p>
+          <p className="text-xs text-gray-500">{formatDate(mood.createdAt)} at {formatTime(mood.createdAt)}</p>
+        </div>
+      </div>
+
       {mood.tags?.length > 0 && (
-        <div className="tag-row">
-          {mood.tags.map((tag) => <span key={tag} className="tag-pill">{tag}</span>)}
+        <div className="flex gap-1.5 flex-wrap mb-2">
+          {mood.tags.map((tag) => (
+            <span key={tag} className="px-2 py-0.5 rounded-md bg-gray-100 text-xs text-gray-600 font-medium">
+              {tag}
+            </span>
+          ))}
         </div>
       )}
-      {mood.gratitude && <p className="mood-gratitude">🙏 {mood.gratitude}</p>}
-      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-        {onEdit && <button className="btn btn-secondary" onClick={() => setEditing(true)}>Edit</button>}
-        {onDelete && <button className="btn btn-danger" onClick={() => onDelete(mood.id)}>Delete</button>}
+
+      {mood.note && <p className="text-sm text-gray-700 mb-2">{mood.note}</p>}
+      {mood.gratitude && <p className="text-xs text-gray-400 italic mb-2">🙏 {mood.gratitude}</p>}
+
+      <div className="flex gap-2">
+        {onDelete && (
+          <Button variant="outline" size="sm" onClick={() => onDelete(mood.id)} className="text-danger-500 border-danger-100 hover:bg-danger-50">
+            Delete
+          </Button>
+        )}
+        {onEdit && (
+          <Button variant="outline" size="sm" onClick={() => setEditing(true)}>
+            Edit
+          </Button>
+        )}
       </div>
     </div>
   )

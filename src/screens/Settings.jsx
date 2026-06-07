@@ -3,7 +3,10 @@ import { useSettings } from '../hooks/useSettings'
 import { exportData, getStorageItem } from '../utils/export'
 import { validateMood, validateEntry } from '../utils/validate'
 import { requestNotificationPermission, startReminder } from '../utils/notifications'
-import { hashPin, verifyPin } from '../utils/security'
+import { hashPin } from '../utils/security'
+import Button from '../components/Button'
+import Input from '../components/Input'
+import { User, Lock, Download, Upload, AlertTriangle, Shield } from 'lucide-react'
 
 export default function Settings() {
   const { settings, updateSettings } = useSettings()
@@ -131,88 +134,132 @@ export default function Settings() {
   }
 
   return (
-    <div>
-      <h2>Settings</h2>
-      <div className="card">
-        <form onSubmit={handleSave}>
-          <div className="form-group">
-            <label>Your Name</label>
-            <input value={name} onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name" />
-          </div>
-          <button className="btn" type="submit">Save</button>
+    <div className="space-y-4 pt-2">
+      <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+
+      {/* Name */}
+      <div className="bg-white rounded-2xl p-4">
+        <h2 className="text-base font-bold text-gray-900 mb-3">Name</h2>
+        <form onSubmit={handleSave} className="space-y-3">
+          <Input
+            leftIcon={User}
+            placeholder="Enter your name..."
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Button type="submit">Save</Button>
         </form>
       </div>
-      <hr />
 
-      <div className="card">
-        <h3>Reminders</h3>
-        <p className="card-description">Get a daily reminder to check in with yourself. Allow browser notifications when prompted, and make sure OS notifications are on (Windows: Action Center · Mac: System Settings → Notifications).</p>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-          <span>Daily reminder</span>
-          <button className={`toggle-btn ${reminderEnabled ? 'active' : ''}`} onClick={handleReminderToggle} type="button">
-            <span className="toggle-knob" />
+      {/* Reminders */}
+      <div className="bg-white rounded-2xl p-4">
+        <h2 className="text-base font-bold text-gray-900 mb-1">Reminders</h2>
+        <p className="text-sm text-gray-500 mb-3">
+          Get a daily reminder to check in with yourself. Allow browser notifications when prompted, and make sure OS notifications are on (Windows: Action Center · Mac: System Settings → Notifications).
+        </p>
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-medium text-gray-700">Daily reminder</span>
+          <button
+            onClick={handleReminderToggle}
+            className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer ${reminderEnabled ? 'bg-brand-800' : 'bg-gray-200'}`}
+          >
+            <span
+              className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${reminderEnabled ? 'translate-x-5' : ''}`}
+            />
           </button>
         </div>
         {reminderEnabled && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <label style={{ fontSize: 'var(--text-base)', color: 'var(--color-muted)' }}>Remind at</label>
-            <input type="time" value={reminderTime} onChange={handleReminderTime}
-              style={{ padding: '6px 10px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)', fontFamily: 'inherit' }} />
+          <div className="flex items-center gap-2 mt-2">
+            <label className="text-sm text-gray-500">Remind at</label>
+            <input
+              type="time"
+              value={reminderTime}
+              onChange={handleReminderTime}
+              className="px-3 py-1.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-800/20 focus:border-brand-800"
+            />
           </div>
         )}
       </div>
-      <hr />
 
-      <div className="card">
-        <h3>Security</h3>
-        <p className="card-description">Require a PIN to open the app. If you forget your PIN, your data cannot be recovered.</p>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-          <span>App lock</span>
-          <button className={`toggle-btn ${pinEnabled ? 'active' : ''}`}
+      {/* Security */}
+      <div className="bg-white rounded-2xl p-4">
+        <h2 className="text-base font-bold text-gray-900 mb-1">Security</h2>
+        <p className="text-sm text-gray-500 mb-3">
+          Require a PIN to open the app. If you forget your PIN, your data cannot be recovered.
+        </p>
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-medium text-gray-700">App lock</span>
+          <button
             onClick={() => {
-              if (pinEnabled) { handleRemovePin() }
-              else { setSettingPin(true) }
-            }} type="button">
-            <span className="toggle-knob" />
+              if (pinEnabled) handleRemovePin()
+              else setSettingPin(true)
+            }}
+            className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer ${pinEnabled ? 'bg-brand-800' : 'bg-gray-200'}`}
+          >
+            <span
+              className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${pinEnabled ? 'translate-x-5' : ''}`}
+            />
           </button>
         </div>
         {settingPin && (
-          <div style={{ marginTop: 8 }}>
-            <p className="pin-warning">⚠️ If you forget your PIN, there is no way to recover your data.</p>
-            <input className="mood-note" type="password" placeholder="Enter 4-digit PIN" maxLength={4}
-              value={pinInput} onChange={(e) => { setPinInput(e.target.value.replace(/\D/g, '').slice(0, 4)); setPinError('') }} />
-            <input className="mood-note" type="password" placeholder="Confirm PIN" maxLength={4}
-              value={pinConfirm} onChange={(e) => { setPinConfirm(e.target.value.replace(/\D/g, '').slice(0, 4)); setPinError('') }} />
-            {pinError && <p style={{ color: 'var(--color-danger)', fontSize: 'var(--text-sm)', marginBottom: 8 }}>{pinError}</p>}
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button className="btn" onClick={handleSetPin} type="button">Set PIN</button>
-              <button className="btn btn-secondary" onClick={() => { setSettingPin(false); setPinInput(''); setPinConfirm(''); setPinError('') }} type="button">Cancel</button>
+          <div className="mt-3 space-y-2">
+            <div className="bg-danger-50 text-danger-600 text-sm font-medium px-3 py-2 rounded-xl">
+              ⚠️ If you forget your PIN, there is no way to recover your data.
+            </div>
+            <Input
+              type="password"
+              placeholder="Enter 4-digit PIN"
+              maxLength={4}
+              value={pinInput}
+              onChange={(e) => { setPinInput(e.target.value.replace(/\D/g, '').slice(0, 4)); setPinError('') }}
+            />
+            <Input
+              type="password"
+              placeholder="Confirm PIN"
+              maxLength={4}
+              value={pinConfirm}
+              onChange={(e) => { setPinConfirm(e.target.value.replace(/\D/g, '').slice(0, 4)); setPinError('') }}
+            />
+            {pinError && <p className="text-danger-500 text-sm">{pinError}</p>}
+            <div className="flex gap-2">
+              <Button onClick={handleSetPin}>Set PIN</Button>
+              <Button variant="secondary" onClick={() => { setSettingPin(false); setPinInput(''); setPinConfirm(''); setPinError('') }}>
+                Cancel
+              </Button>
             </div>
           </div>
         )}
       </div>
-      <hr />
 
-      <div className="card">
-        <h3>Backup & Restore</h3>
-        <p className="card-description">
+      {/* Backup & Restore */}
+      <div className="bg-white rounded-2xl p-4">
+        <h2 className="text-base font-bold text-gray-900 mb-1">Backup & Restore</h2>
+        <p className="text-sm text-gray-500 mb-3">
           Export your data regularly to avoid losing it. You can import it back anytime.
         </p>
-        <button className="btn" onClick={exportData}>Export as JSON</button>{' '}
-        <button className="btn btn-secondary" onClick={() => fileInputRef.current?.click()}>Import JSON</button>
-        <input ref={fileInputRef} type="file" accept=".json" onChange={handleImport} style={{ display: 'none' }} />
+        <div className="flex gap-2">
+          <Button onClick={exportData} leftIcon={Download}>Export as JSON</Button>
+          <Button variant="secondary" onClick={() => fileInputRef.current?.click()} leftIcon={Upload}>Import JSON</Button>
+        </div>
+        <input ref={fileInputRef} type="file" accept=".json" onChange={handleImport} className="hidden" />
       </div>
-      <hr />
-      <div className="card card-danger">
-        <h3 className="danger-title">Danger Zone</h3>
-        <p className="card-description">
-          Permanently delete all your moods, journal entries, and settings. This cannot be undone.
+
+      {/* Danger Zone */}
+      <div className="bg-danger-50 border border-danger-100 rounded-2xl p-4">
+        <h2 className="text-base font-bold text-danger-500 mb-1">Danger Zone</h2>
+        <p className="text-sm text-gray-600 mb-3">
+          Permanently delete all your moods, journal entries, and settings. WARNING: This operation cannot be undone!
         </p>
-        <button className="btn btn-danger" onClick={handleClearData}>Clear All Data</button>
+        <Button variant="danger" onClick={handleClearData}>Clear All Data</Button>
       </div>
-      <hr />
-      <p className="mood-meta">Data is stored locally in your browser. No account needed.</p>
+
+      <div className="text-center py-4">
+        <Lock size={16} className="mx-auto text-gray-400 mb-2" />
+        <p className="text-xs text-gray-400">
+          Your data is stored locally in your browser.<br />
+          No account needed.
+        </p>
+      </div>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import { toDayKey } from '../utils/date'
+import { TrendingUp, Hash, Calendar, Star } from 'lucide-react'
 
 const emojis = ['😞', '😕', '😐', '🙂', '😊']
 
@@ -42,14 +43,32 @@ export default function WeeklySummary({ moods }) {
   const bestDayName = bestDay ? new Date(bestDay[0] + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long' }) : null
 
   return (
-    <div className="card">
-      <h3>This Week</h3>
-      <p className="insight">📊 Average: {avg}/5</p>
-      {topTag && <p className="insight">🏷️ Most common: {topTag[0]}</p>}
-      <p className="insight">
-        {emojis.map((e, i) => dist[i] > 0 ? `${e}: ${dist[i]}` : null).filter(Boolean).join('  ')}
-      </p>
-      {bestDayName && <p className="insight">📅 Best day: {bestDayName}</p>}
+    <div className="bg-white rounded-2xl p-4">
+      <h2 className="text-lg font-bold text-gray-900 mb-3">This Week</h2>
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 text-sm text-gray-700">
+          <TrendingUp size={14} className="text-brand-800" />
+          <span>Average: <strong>{avg}/5</strong></span>
+        </div>
+        {topTag && (
+          <div className="flex items-center gap-2 text-sm text-gray-700">
+            <Hash size={14} className="text-brand-800" />
+            <span>Most common: <strong>{topTag[0]}</strong></span>
+          </div>
+        )}
+        <div className="flex items-center gap-2 text-sm text-gray-700">
+          <Star size={14} className="text-brand-800" />
+          <span>
+            {emojis.map((e, i) => dist[i] > 0 ? `${e}: ${dist[i]}` : null).filter(Boolean).join('  ')}
+          </span>
+        </div>
+        {bestDayName && (
+          <div className="flex items-center gap-2 text-sm text-gray-700">
+            <Calendar size={14} className="text-brand-800" />
+            <span>Best day: <strong>{bestDayName}</strong></span>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

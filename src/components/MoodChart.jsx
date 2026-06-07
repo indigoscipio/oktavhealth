@@ -7,10 +7,10 @@ function CustomTooltip({ active, payload }) {
   if (!active || !payload?.length) return null
   const d = payload[0].payload
   return (
-    <div className="card chart-tooltip">
-      <p><strong>{labels[d.rating - 1]}</strong> ({d.rating}/5)</p>
-      <p className="mood-meta">{formatDate(d.createdAt)}</p>
-      {d.note && <p>{d.note}</p>}
+    <div className="bg-white rounded-2xl p-3 shadow-lg border border-gray-100">
+      <p className="font-bold text-gray-900 text-sm">{labels[d.rating - 1]} ({d.rating}/5)</p>
+      <p className="text-xs text-gray-500">{formatDate(d.createdAt)}</p>
+      {d.note && <p className="text-xs text-gray-700 mt-1">{d.note}</p>}
     </div>
   )
 }
@@ -26,14 +26,14 @@ export default function MoodChart({ moods }) {
   }))
 
   return (
-    <div className="card">
-      <h3 className="chart-title">Mood Over Time</h3>
+    <div className="bg-white rounded-2xl p-4">
+      <h3 className="text-base font-bold text-gray-900 mb-3">Mood Over Time</h3>
       <ResponsiveContainer width="100%" height={200}>
         <LineChart data={data}>
           <XAxis dataKey="label" tick={{ fontSize: 12 }} />
           <YAxis domain={[1, 5]} ticks={[1, 2, 3, 4, 5]} tick={{ fontSize: 12 }} width={20} />
           <Tooltip content={<CustomTooltip />} />
-          <Line type="monotone" dataKey="rating" stroke="var(--color-primary)" strokeWidth={2} dot={{ r: 4 }} />
+          <Line type="monotone" dataKey="rating" stroke="#115e59" strokeWidth={2} dot={{ r: 4 }} />
         </LineChart>
       </ResponsiveContainer>
     </div>

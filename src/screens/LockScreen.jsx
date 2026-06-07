@@ -28,22 +28,49 @@ export default function LockScreen({ pinHash, onUnlock }) {
   }
 
   return (
-    <div className="lock-screen">
-      <div className="lock-content">
-        <img src="/logo.svg" alt="" height="48" style={{ marginBottom: 16 }} />
-        <p style={{ marginBottom: 24, color: 'var(--color-muted)' }}>Enter PIN to unlock</p>
-        <div className={`lock-dots ${error ? 'lock-error' : ''}`}>
+    <div className="fixed inset-0 z-50 bg-gray-50 flex items-center justify-center">
+      <div className="text-center w-[280px]">
+        <img src="/logo.svg" alt="oktavhealth" height="48" className="mx-auto mb-4" />
+        <p className="text-sm text-gray-500 mb-6">Enter PIN to unlock</p>
+
+        <div className={`flex gap-4 justify-center mb-8 ${error ? 'animate-[shake_0.4s]' : ''}`}>
           {[0, 1, 2, 3].map((i) => (
-            <span key={i} className={`lock-dot ${digits.length > i ? 'filled' : ''}`} />
+            <span
+              key={i}
+              className={`w-4 h-4 rounded-full border-2 transition-colors ${
+                error
+                  ? 'border-danger-500'
+                  : digits.length > i
+                    ? 'bg-brand-800 border-brand-800'
+                    : 'bg-white border-gray-200'
+              }`}
+            />
           ))}
         </div>
-        <div className="lock-numpad">
+
+        <div className="grid grid-cols-3 gap-3">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
-            <button key={d} className="lock-key" onClick={() => handleDigit(String(d))}>{d}</button>
+            <button
+              key={d}
+              className="w-14 h-14 rounded-full border border-gray-200 bg-white text-lg font-medium cursor-pointer hover:bg-gray-50 active:scale-95 transition-all mx-auto flex items-center justify-center"
+              onClick={() => handleDigit(String(d))}
+            >
+              {d}
+            </button>
           ))}
           <span />
-          <button className="lock-key" onClick={() => handleDigit('0')}>0</button>
-          <button className="lock-key" onClick={handleDelete}>⌫</button>
+          <button
+            className="w-14 h-14 rounded-full border border-gray-200 bg-white text-lg font-medium cursor-pointer hover:bg-gray-50 active:scale-95 transition-all mx-auto flex items-center justify-center"
+            onClick={() => handleDigit('0')}
+          >
+            0
+          </button>
+          <button
+            className="w-14 h-14 rounded-full border border-gray-200 bg-white text-lg font-medium cursor-pointer hover:bg-gray-50 active:scale-95 transition-all mx-auto flex items-center justify-center"
+            onClick={handleDelete}
+          >
+            ⌫
+          </button>
         </div>
       </div>
     </div>

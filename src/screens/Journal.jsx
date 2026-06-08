@@ -4,8 +4,8 @@ import JournalEntryCard from '../components/JournalEntryCard'
 import Button from '../components/Button'
 import { formatDate, groupByDay } from '../utils/date'
 
-export default function Journal() {
-  const { entries, addEntry, editEntry, deleteEntry } = useJournal()
+export default function Journal({ showToast }) {
+  const { entries, addEntry, editEntry, deleteEntry, restoreEntry } = useJournal()
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [showForm, setShowForm] = useState(false)
@@ -18,6 +18,18 @@ export default function Journal() {
     setTitle('')
     setBody('')
     setShowForm(false)
+    showToast?.('Journal saved')
+  }
+
+  const handleDelete = (id) => {
+    const entry = entries.find((e) => e.id === id)
+    deleteEntry(id)
+    if (showToast && entry) {
+      showToast('Journal entry deleted', {
+        action: 'Undo',
+        onAction: () => restoreEntry(entry),
+      })
+    }
   }
 
   return (
@@ -67,7 +79,7 @@ export default function Journal() {
               <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 mb-2">{formatDate(day)}</p>
               <div className="space-y-3">
                 {dayEntries.map((entry) => (
-                  <JournalEntryCard key={entry.id} entry={entry} onDelete={deleteEntry} onEdit={editEntry} />
+                  <JournalEntryCard key={entry.id} entry={entry} onDelete={handleDelete} onEdit={editEntry} />
                 ))}
               </div>
             </div>

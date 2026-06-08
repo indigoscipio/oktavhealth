@@ -49,5 +49,13 @@ export function useMoods() {
     })
   }, [])
 
-  return { moods, addMood, editMood, deleteMood }
+  const restoreMood = useCallback((mood) => {
+    setMoods((prev) => {
+      const updated = [...prev, mood].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      saveToStorage(updated)
+      return updated
+    })
+  }, [])
+
+  return { moods, addMood, editMood, deleteMood, restoreMood }
 }

@@ -7,6 +7,8 @@ import Journal from './screens/Journal'
 import Settings from './screens/Settings'
 import LockScreen from './screens/LockScreen'
 import OnboardingModal from './components/OnboardingModal'
+import Toast from './components/Toast'
+import { useToast } from './hooks/useToast'
 import { startReminder, stopReminder } from './utils/notifications'
 
 export default function App() {
@@ -26,6 +28,7 @@ export default function App() {
       return s.pinHash || null
     } catch { return null }
   })
+  const { toast, showToast, dismissToast } = useToast()
 
   useEffect(() => {
     const s = JSON.parse(localStorage.getItem('oktav-settings') || '{}')
@@ -56,10 +59,10 @@ export default function App() {
   const renderView = () => {
     switch (view) {
       case 'landing': return <Landing onEnter={() => setView('Home')} />
-      case 'Home': return <Home />
-      case 'MoodLog': return <MoodLog />
-      case 'Journal': return <Journal />
-      case 'Settings': return <Settings />
+      case 'Home': return <Home showToast={showToast} />
+      case 'MoodLog': return <MoodLog showToast={showToast} />
+      case 'Journal': return <Journal showToast={showToast} />
+      case 'Settings': return <Settings showToast={showToast} />
       default: return <Landing onEnter={() => setView('Home')} />
     }
   }
@@ -75,6 +78,7 @@ export default function App() {
           setShowOnboarding(false)
         }} />
       )}
+      <Toast toast={toast} onDismiss={dismissToast} />
     </>
   )
 }

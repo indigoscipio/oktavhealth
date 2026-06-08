@@ -47,5 +47,13 @@ export function useJournal() {
     })
   }, [])
 
-  return { entries, addEntry, editEntry, deleteEntry }
+  const restoreEntry = useCallback((entry) => {
+    setEntries((prev) => {
+      const updated = [...prev, entry].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      saveToStorage(updated)
+      return updated
+    })
+  }, [])
+
+  return { entries, addEntry, editEntry, deleteEntry, restoreEntry }
 }

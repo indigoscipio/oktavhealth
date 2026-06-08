@@ -9,7 +9,7 @@ import Button from '../components/Button'
 import Input from '../components/Input'
 import { User, Lock, Download, Upload, AlertTriangle, Shield, Sun, Moon } from 'lucide-react'
 
-export default function Settings() {
+export default function Settings({ showToast }) {
   const { settings, updateSettings } = useSettings()
   const { theme, toggle: toggleTheme } = useTheme()
   const [name, setName] = useState(settings.userName || '')
@@ -25,6 +25,7 @@ export default function Settings() {
   const handleSave = (e) => {
     e.preventDefault()
     updateSettings({ userName: name })
+    showToast?.('Name updated')
   }
 
   const handleReminderToggle = async () => {
@@ -73,6 +74,7 @@ export default function Settings() {
     setSettingPin(false)
     setPinInput('')
     setPinConfirm('')
+    showToast?.('PIN set')
   }
 
   const handleRemovePin = async () => {
@@ -261,7 +263,7 @@ export default function Settings() {
           Export your data regularly to avoid losing it. You can import it back anytime.
         </p>
         <div className="flex gap-2">
-          <Button onClick={exportData} leftIcon={Download}>Export as JSON</Button>
+          <Button onClick={() => { exportData(); showToast?.('Backup downloaded') }} leftIcon={Download}>Export as JSON</Button>
           <Button variant="secondary" onClick={() => fileInputRef.current?.click()} leftIcon={Upload}>Import JSON</Button>
         </div>
         <input ref={fileInputRef} type="file" accept=".json" onChange={handleImport} className="hidden" />

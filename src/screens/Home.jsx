@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { Download } from 'lucide-react'
 import CrisisCard from '../components/CrisisCard'
-import MoodInput from '../components/MoodInput'
 import MoodCard from '../components/MoodCard'
 import MoodChart from '../components/MoodChart'
-import MoodInsights from '../components/MoodInsights'
-import WeeklySummary from '../components/WeeklySummary'
+import WeeklyInsights from '../components/WeeklyInsights'
 import PatternCard from '../components/PatternCard'
 import Button from '../components/Button'
 import { useMoods } from '../hooks/useMoods'
@@ -15,7 +13,7 @@ import { formatDate, groupByDay } from '../utils/date'
 import { exportData, getDaysSinceExport } from '../utils/export'
 
 export default function Home() {
-  const { moods, addMood, editMood, deleteMood } = useMoods()
+  const { moods, editMood, deleteMood } = useMoods()
   const { entries } = useJournal()
   const { settings } = useSettings()
   const name = settings.userName || 'you'
@@ -48,11 +46,7 @@ export default function Home() {
 
       <CrisisCard />
 
-      <MoodInput onSave={(rating, note, tags, gratitude) => addMood(rating, note, tags, gratitude)} />
-
-      <MoodInsights moods={moods} />
-
-      <WeeklySummary moods={moods} />
+      <WeeklyInsights moods={moods} />
 
       <PatternCard moods={moods} />
 
@@ -61,7 +55,7 @@ export default function Home() {
       <div>
         <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-3">Recent Activity</h2>
         {moods.length === 0 ? (
-          <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">No moods logged yet. Tap an emoji above to get started.</p>
+          <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">Tap the Mood tab to log your first entry.</p>
         ) : (
           groups.map(([day, dayMoods]) => (
             <div key={day} className="mb-4">

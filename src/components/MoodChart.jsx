@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { formatDate } from '../utils/date'
 
 const labels = ['Terrible', 'Bad', 'Okay', 'Good', 'Great']
+const ranges = { '7d': 7, '30d': 30, '3m': 90, 'All': null }
 
 function CustomTooltip({ active, payload }) {
   if (!active || !payload?.length) return null
@@ -16,9 +18,20 @@ function CustomTooltip({ active, payload }) {
 }
 
 export default function MoodChart({ moods }) {
+  const [range, setRange] = useState('30d')
   if (moods.length === 0) return null
 
-  const data = moods.slice().reverse().map((m) => ({
+  const daysAgo = ranges[range]
+  const filtered = daysAgo
+    ? moods.filter((m) => (Date.now() - new Date(m.createdAt).getTime()) < daysAgo * 24 * 60 * 60 * 1000)
+    : moods
+
+  if (filtered.length === 0) return null
+
+  const data = filtered
+    .slice()
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+    .map((m) => ({
     rating: m.rating,
     note: m.note || '',
     createdAt: m.createdAt,
@@ -36,6 +49,21 @@ export default function MoodChart({ moods }) {
           <Line type="monotone" dataKey="rating" stroke="#115e59" strokeWidth={2} dot={{ r: 4 }} />
         </LineChart>
       </ResponsiveContainer>
+      <div className="flex gap-1.5 justify-center mt-3">
+        {Object.keys(ranges).map((key) => (
+          <button
+            key={key}
+            onClick={() => setRange(key)}
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors cursor-pointer ${
+              range === key
+                ? 'bg-brand-800 text-white'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+            }`}
+          >
+            {key}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }

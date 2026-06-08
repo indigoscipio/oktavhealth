@@ -49,9 +49,17 @@ export default function Home({ showToast }) {
       {showReminder && (
         <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 flex items-center justify-between gap-3">
           <p className="text-sm text-gray-700 dark:text-gray-300">Let's backup your health data weekly.</p>
-          <Button size="sm" onClick={exportData} leftIcon={Download}>
-            Backup Now
-          </Button>
+          <div className="flex gap-2 shrink-0">
+            <Button size="sm" onClick={exportData} leftIcon={Download}>
+              Backup Now
+            </Button>
+            <Button size="sm" variant="ghost" onClick={() => {
+              localStorage.setItem('oktav-dismissExport', Date.now())
+              setDismissed(true)
+            }}>
+              Dismiss
+            </Button>
+          </div>
         </div>
       )}
 

@@ -6,6 +6,7 @@ import MoodCard from '../components/MoodCard'
 import MoodChart from '../components/MoodChart'
 import MoodInsights from '../components/MoodInsights'
 import WeeklySummary from '../components/WeeklySummary'
+import PatternCard from '../components/PatternCard'
 import Button from '../components/Button'
 import { useMoods } from '../hooks/useMoods'
 import { useJournal } from '../hooks/useJournal'
@@ -52,6 +53,8 @@ export default function Home() {
       <MoodInsights moods={moods} />
 
       <WeeklySummary moods={moods} />
+
+      <PatternCard moods={moods} />
 
       {moods.length >= 2 && <MoodChart moods={moods} />}
 

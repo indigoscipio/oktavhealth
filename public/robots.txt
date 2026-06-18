@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://health.oktavsoftware.com/sitemap.xml
+Sitemap: https://walden.oktavsoftware.com/sitemap.xml

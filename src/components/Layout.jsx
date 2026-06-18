@@ -19,7 +19,7 @@ export default function Layout({ view, onNavigate, children }) {
       <header className="flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
         <img
           src="/logo.svg"
-          alt="oktavhealth"
+          alt="walden"
           height="28"
           className="dark:invert(0.1) dark:brightness-200"
         />

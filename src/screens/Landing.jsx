@@ -55,11 +55,11 @@ const stats = [
 
 const faqs = [
   {
-    q: 'How does oktavhealth work?',
-    a: 'oktavhealth runs entirely in your browser. When you log a mood or write a journal entry, it\'s saved to your browser\'s local storage. Nothing is ever sent to a server. You can export your data as a JSON file anytime.',
+    q: 'How does walden work?',
+    a: 'walden runs entirely in your browser. When you log a mood or write a journal entry, it\'s saved to your browser\'s local storage. Nothing is ever sent to a server. You can export your data as a JSON file anytime.',
   },
   {
-    q: 'Why should I trust oktavhealth with my data?',
+    q: 'Why should I trust walden with my data?',
     a: 'Because your data never leaves your device. There are no servers, no cloud storage, no analytics, and no tracking. We can\'t see your data even if we wanted to. It\'s stored locally in your browser only.',
   },
   {
@@ -67,7 +67,7 @@ const faqs = [
     a: 'Mood tracking with emoji ratings and tags, journal writing, pattern insights that show how your habits affect your mood, weekly summaries with streaks and averages, backup/restore via JSON export, and optional PIN lock.',
   },
   {
-    q: 'Is oktavhealth free?',
+    q: 'Is walden free?',
     a: 'Yes, completely free. No premium tiers, no subscriptions, no hidden costs. The app is open source.',
   },
   {
@@ -78,7 +78,7 @@ const faqs = [
 
 function PhoneMockup() {
   return (
-    <img src="/hero-img.png" alt="oktavhealth app screenshot" className="w-full h-auto rounded-2xl" />
+    <img src="/hero-img.png" alt="walden app screenshot" className="w-full h-auto rounded-2xl" />
   )
 }
 
@@ -89,7 +89,7 @@ export default function Landing({ onEnter }) {
     <div className="min-h-screen">
       {/* Nav */}
       <nav className="sticky top-0 z-10 bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
-        <img src="/logo.svg" alt="oktavhealth" height="24" />
+        <img src="/logo.svg" alt="walden" height="24" />
         <Button onClick={onEnter} rightIcon={ArrowRight}>
           Open App
         </Button>
@@ -99,9 +99,6 @@ export default function Landing({ onEnter }) {
       <section className="px-6 py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="text-center md:text-left">
-            <span className="inline-block px-3 py-1 rounded-full bg-brand-100 text-brand-700 text-xs font-semibold mb-4">
-              v2.5
-            </span>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
               Your mental health,<br />tracked privately.
             </h1>
@@ -199,11 +196,21 @@ export default function Landing({ onEnter }) {
       </section>
 
       {/* Footer */}
-      <footer className="py-4 px-6 flex items-center justify-between bg-brand-800 text-sm">
-        <p className="text-brand-200">&copy; 2026 oktavhealth. Built with care.</p>
-        <a href="https://github.com/indigoscipio/oktavhealth" target="_blank" rel="noopener noreferrer" className="text-brand-200 hover:text-white font-medium">
-          GitHub
-        </a>
+      <footer className="py-4 px-6 bg-brand-800 text-sm">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-brand-200">
+            &copy; 2026 walden by{' '}
+            <a href="https://www.oktavsoftware.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">
+              oktavsoftware
+            </a>
+          </p>
+          <div className="flex items-center gap-4 text-brand-200">
+            <span className="text-brand-300">v2.5</span>
+            <a href="https://github.com/indigoscipio/oktavhealth" target="_blank" rel="noopener noreferrer" className="hover:text-white font-medium">
+              GitHub
+            </a>
+          </div>
+        </div>
       </footer>
     </div>
   )

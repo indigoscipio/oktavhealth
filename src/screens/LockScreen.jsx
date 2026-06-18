@@ -30,7 +30,7 @@ export default function LockScreen({ pinHash, onUnlock }) {
   return (
     <div className="fixed inset-0 z-50 bg-gray-50 dark:bg-gray-800 flex items-center justify-center">
       <div className="text-center w-[280px]">
-        <img src="/logo.svg" alt="oktavhealth" height="48" className="mx-auto mb-4" />
+        <img src="/logo.svg" alt="walden" height="48" className="mx-auto mb-4" />
         <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Enter PIN to unlock</p>
 
         <div className={`flex gap-4 justify-center mb-8 ${error ? 'animate-[shake_0.4s]' : ''}`}>

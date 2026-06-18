@@ -91,7 +91,7 @@ export default function Settings({ showToast }) {
       try {
         const data = JSON.parse(event.target.result)
         if (!data.moods && !data.journal && !data.settings) {
-          window.alert('Invalid file format. Please use an OktavHealth export file.')
+          window.alert('Invalid file format. Please use a walden export file.')
           return
         }
         const moodCount = data.moods?.length || 0
@@ -120,7 +120,7 @@ export default function Settings({ showToast }) {
 
         window.location.reload()
       } catch {
-        window.alert('Could not parse file. Please use a valid OktavHealth export file.')
+        window.alert('Could not parse file. Please use a valid walden export file.')
       }
     }
     reader.readAsText(file)

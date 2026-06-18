@@ -5,9 +5,9 @@ export default function OnboardingModal({ onDismiss }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-6">
       <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 max-w-sm w-full text-center">
-        <img src="/favicon.svg" alt="oktavhealth" className="mx-auto mb-5 h-16" />
+        <img src="/favicon.svg" alt="walden" className="mx-auto mb-5 h-16" />
 
-        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Welcome to oktavhealth!</h1>
+        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Welcome to walden!</h1>
         <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
           A privacy-first mental health app. Here's what that means:
         </p>

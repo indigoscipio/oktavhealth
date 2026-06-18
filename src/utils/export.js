@@ -12,7 +12,7 @@ export function exportData() {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `oktavhealth-export-${new Date().toISOString().split('T')[0]}.json`
+  a.download = `walden-export-${new Date().toISOString().split('T')[0]}.json`
   a.click()
   URL.revokeObjectURL(url)
   localStorage.setItem('oktav-lastExport', new Date().toISOString())
